@@ -1,32 +1,83 @@
+import dependencies.Versions
+
+import dependencies.Application
+
+import dependencies.Dependencies
+
+import dependencies.AnnotationProcess
+
+import dependencies.Java
+
 apply plugin: 'com.android.application'
 
-android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion Versions.compileSDKVersion
     defaultConfig {
-        applicationId "com.fdev.instagramclone"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId Application.applicationId
+        minSdkVersion Versions.mindSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
+        versionCode Application.versionCode
+        versionName Application.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = Java.java_version
     }
 }
 
+
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Kotlin
+    implementation Dependencies.kotlin_stdlib
+    implementation Dependencies.kotlin_reflect
+    implementation Dependencies.ktx
+    implementation Dependencies.kotlinCoroutine
+    implementation Dependencies.kotlin_coroutine_core
+
+    // Android
+    implementation Dependencies.appCompat
+    implementation Dependencies.contraintLayout
+    implementation Dependencies.google_material
+    implementation Dependencies.swipeRefreshLayout
+    implementation Dependencies.recylerView
+
+    //Live data & ViewModel
+    implementation Dependencies.liveData
+    implementation Dependencies.viewModel
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    kapt AnnotationProcess.lifeCycleAnnotationProcess
+
+
+    //Hilt
+    implementation Dependencies.hilt
+    kapt AnnotationProcess.hiltAnnotationProcess
+
+    //Leak canary
+    implementation Dependencies.leak_canary
 
 }
