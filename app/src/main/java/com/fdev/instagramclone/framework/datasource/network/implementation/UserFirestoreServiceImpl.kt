@@ -10,6 +10,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserFirestoreServiceImpl
+@Inject
 constructor(
         private val firebaseAuth: FirebaseAuth,
         private val firestore: FirebaseFirestore,

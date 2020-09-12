@@ -20,6 +20,8 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'dagger.hilt.android.plugin'
+
 android {
     compileSdkVersion Versions.compileSDKVersion
     buildToolsVersion Versions.buildToolsVersion
