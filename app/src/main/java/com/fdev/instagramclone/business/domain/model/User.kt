@@ -2,9 +2,11 @@ package com.fdev.instagramclone.business.domain.model
 
 data class User
 constructor(
-        val id: String,
+        var id: String?,
         var username: String,
+        var email : String,
         var profileImage: String,
-        var following : List<User>
+        var following : List<String>,
+        var followers : List<String>
         ) {
 }

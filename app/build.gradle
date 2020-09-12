@@ -22,6 +22,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion Versions.compileSDKVersion
+    buildToolsVersion Versions.buildToolsVersion
     defaultConfig {
         applicationId Application.applicationId
         minSdkVersion Versions.mindSdkVersion
@@ -63,10 +64,10 @@ dependencies {
 
     // Kotlin
     implementation Dependencies.kotlin_stdlib
-    implementation Dependencies.kotlin_reflect
     implementation Dependencies.ktx
     implementation Dependencies.kotlinCoroutine
     implementation Dependencies.kotlin_coroutine_core
+    implementation Dependencies.kotlin_coroutine_play_service
 
     // Android
     implementation Dependencies.appCompat
@@ -77,7 +78,7 @@ dependencies {
 
     //Live data & ViewModel
     implementation Dependencies.liveData
-    implementation Dependencies.viewModel
+    implementation Dependencies.lifecycle_runtime
     kapt AnnotationProcess.lifeCycleAnnotationProcess
 
 
@@ -85,6 +86,7 @@ dependencies {
     implementation Dependencies.firebase_crashylytics
     implementation Dependencies.firebase_analytics
     implementation Dependencies.firebase_firestore
+    implementation Dependencies.firebase_auth
 
     //Retrofit
     implementation Dependencies.retrofit

@@ -74,7 +74,7 @@ abstract class DataChannelManager<ViewState> {
         messageManager.add(stateMessage)
     }
 
-    fun clearStateMessage(index: Int = 0){
+    fun clearStateMessage(){
         printLogD("DataChannelManager", "clear state message")
         messageManager.removeCurrentMessage()
     }
