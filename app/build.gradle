@@ -16,6 +16,9 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.google.firebase.crashlytics'
+
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion Versions.compileSDKVersion
@@ -45,6 +48,13 @@ android {
     kotlinOptions {
         jvmTarget = Java.java_version
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/layouts/auth', 'src/main/res/layouts/main'
+            }
+        }
+    }
 }
 
 
@@ -68,10 +78,16 @@ dependencies {
     //Live data & ViewModel
     implementation Dependencies.liveData
     implementation Dependencies.viewModel
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     kapt AnnotationProcess.lifeCycleAnnotationProcess
 
+
+    //Firebase
+    implementation Dependencies.firebase_crashylytics
+    implementation Dependencies.firebase_analytics
+    implementation Dependencies.firebase_firestore
+
+    //Retrofit
+    implementation Dependencies.retrofit
 
     //Hilt
     implementation Dependencies.hilt

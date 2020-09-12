@@ -6,12 +6,15 @@ buildscript {
 
     repositories {
         google()
+        maven { url 'https://maven.google.com' }
         jcenter()
     }
     dependencies {
         classpath Build.build_tools
         classpath Build.kotlin_gradle_plugin
         classpath Build.hilt_build
+        classpath Build.google_services
+        classpath Build.firebase_crashlytics_gradle
     }
 }
 

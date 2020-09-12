@@ -19,4 +19,9 @@ object Dependencies {
     val contraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     val google_material = "com.google.android.material:material:${Versions.google_material}"
     val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
+    val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retorfit2}"
+    val firebase_analytics = "com.google.firebase:firebase-analytics:${Versions.firebase_analytics_version}"
+    val firebase_crashylytics = "com.google.firebase:firebase-crashlytics:${Versions.firebase_crashlytics_version}"
+    val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase_firestore_version}"
+
 }
