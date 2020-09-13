@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">InstagramClone</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signup_button_label">Create New Account</string>
+    <string name="login_button_label">Log In</string>
+    <string name="already_have_an_account_label">Already have an account? </string>
+    <string name="login_already_have_account_label">Log in</string>
+    <string name="login_method_phone">PHONE</string>
+    <string name="login_method_email">EMAIL</string>
+    <string name="edit_text_sign_up_email_hint">Email</string>
+    <string name="signup_next_label">Next</string>
+    <string name="enter_confirmation_code_title">ENTER CONFIRMATION CODE</string>
+    <string name="resend_code_btn_label">Resend Code.</string>
+    <string name="confirmation_code_hint_label">Confirmation Code</string>
+    <string name="confirmation_code_firstline">Enter the confirmation code we sent to</string>
+    <string name="username_edit_text_label">Username</string>
+    <string name="name_editText_label">Full Name</string>
+    <string name="password_edit_text_label">Password</string>
+    <string name="name_password_title_tv">YOUR IDENTITY</string>
+    <string name="forgot_your_login_details_label">Forgot your login details?</string>
+    <string name="forget_password_button_label">Get help logging in</string>
+    <string name="sing_up_btn_label">Sign up.</string>
+    <string name="don_t_have_an_account_label">Don\'t have an account?</string>
+    <string name="forget_password_info_label">Enter your username or email linked to your account</string>
 </resources>

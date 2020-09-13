@@ -25,6 +25,7 @@ object Dependencies {
     val firebase_crashylytics = "com.google.firebase:firebase-crashlytics:${Versions.firebase_crashlytics_version}"
     val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase_firestore_version}"
     val firebase_auth = "com.google.firebase:firebase-auth:${Versions.firebase_auth_version}"
+    val android_legacy_support = "androidx.legacy:legacy-support-v4:${Versions.legacy_support_version}"
 
 
 }

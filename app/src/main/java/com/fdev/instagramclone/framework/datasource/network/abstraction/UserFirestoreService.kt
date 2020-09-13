@@ -10,8 +10,15 @@ interface UserFirestoreService {
 
     suspend fun loginWithEmail(email: String, password: String): User?
 
-    suspend fun signupWithEmail(email: String, username : String , password: String): User?
+    suspend fun signupWithEmail(email: String  , password: String): User?
 
-    suspend fun getCurrentUser(): User
+    suspend fun getCurrentUser(): User?
+
+    suspend fun sendEmailVerification(): Boolean
+
+    suspend fun checkIfUsernameExist(username : String) : Boolean
+
+    suspend fun resetEmail(email: String): Boolean
+
 
 }

@@ -1,9 +1,10 @@
 package dependencies
 
 object Versions {
+    val legacy_support_version = "1.0.0"
     val firebase_auth_version = "19.3.1"
     val firebase_firestore_version = "21.6.0"
-    val firebase_crashlyticsGradle_version = "2.1.1"
+    val firebase_crashlyticsGradle_version = "2.3.0"
     val firebase_crashlytics_version = "17.2.1"
     val firebase_analytics_version = "17.5.0"
     val google_services_version = "4.3.3"

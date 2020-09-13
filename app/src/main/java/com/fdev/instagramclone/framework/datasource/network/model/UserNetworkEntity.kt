@@ -4,11 +4,26 @@ import com.fdev.instagramclone.business.domain.model.User
 
 data class UserNetworkEntity
 constructor(
-        val id: String? = null,
-        val username: String,
-        val email : String,
-        val profileImage: String,
-        val following : List<String>,
-        val followers : List<String>
+        var id: String? = null,
+        var username: String,
+        var email : String,
+        var profileImage: String,
+        var bio: String = "",
+        var name: String,
+        var following : List<String>,
+        var followers : List<String>,
+        var isRegistered : Boolean = false
 ) {
+
+    constructor() : this(
+            "" ,
+            "",
+            "",
+            "",
+            "",
+            "",
+            ArrayList(),
+            ArrayList(),
+            false
+    )
 }

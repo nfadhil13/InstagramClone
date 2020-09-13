@@ -16,9 +16,9 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.google.firebase.crashlytics'
-
 apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'com.google.firebase.crashlytics'
 
 apply plugin: 'dagger.hilt.android.plugin'
 
@@ -58,6 +58,10 @@ android {
             }
         }
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 
@@ -77,6 +81,7 @@ dependencies {
     implementation Dependencies.google_material
     implementation Dependencies.swipeRefreshLayout
     implementation Dependencies.recylerView
+    implementation Dependencies.android_legacy_support
 
     //Live data & ViewModel
     implementation Dependencies.liveData

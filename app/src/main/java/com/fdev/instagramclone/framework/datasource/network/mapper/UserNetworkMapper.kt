@@ -11,8 +11,11 @@ class UserNetworkMapper : EntityMapper<UserNetworkEntity, User>() {
                     domain.username,
                     domain.email,
                     domain.profileImage,
+                    domain.bio,
+                    domain.name,
                     domain.following,
-                    domain.followers
+                    domain.followers,
+                    domain.isRegistered
             )
 
     override fun mapEntityToDomain(entity: UserNetworkEntity) =
@@ -21,8 +24,11 @@ class UserNetworkMapper : EntityMapper<UserNetworkEntity, User>() {
                     entity.username,
                     entity.email,
                     entity.profileImage,
+                    entity.bio,
+                    entity.name,
                     entity.following,
-                    entity.followers
+                    entity.followers,
+                    entity.isRegistered
             )
 
     override fun mapToListEntity(domains: List<User>): List<UserNetworkEntity> {

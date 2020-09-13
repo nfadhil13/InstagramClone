@@ -20,10 +20,19 @@ class UserNetworkDataSourceImpl constructor(
             userFireStoreService.loginWithEmail(email, password)
 
 
-    override suspend fun signupWithEmail(email: String, username : String , password: String) =
+    override suspend fun signupWithEmail(email: String, password: String) =
 
-            userFireStoreService.signupWithEmail(email, username ,  password)
+            userFireStoreService.signupWithEmail(email,  password)
 
-    override suspend fun getCurrentUser(): User = userFireStoreService.getCurrentUser()
+    override suspend fun getCurrentUser() = userFireStoreService.getCurrentUser()
+
+    override suspend fun sendEmailVerfication() =
+            userFireStoreService.sendEmailVerification()
+
+    override suspend fun checkIfUsernameExist(username : String): Boolean
+        = userFireStoreService.checkIfUsernameExist(username)
+
+    override suspend fun resetEmail(email: String): Boolean
+        = userFireStoreService.resetEmail(email)
 
 }

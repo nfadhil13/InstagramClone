@@ -6,7 +6,10 @@ constructor(
         var username: String,
         var email : String,
         var profileImage: String,
+        var name: String = "",
+        var bio: String  =" ",
         var following : List<String>,
-        var followers : List<String>
+        var followers : List<String>,
+        var isRegistered : Boolean = false
         ) {
 }

@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/colorPrimary"
     tools:context=".framework.presentation.auth.AuthActivity">
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
