@@ -1,5 +1,9 @@
 package com.fdev.instagramclone.business.domain.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class User
 constructor(
         var id: String?,
@@ -11,5 +15,5 @@ constructor(
         var following : List<String>,
         var followers : List<String>,
         var isRegistered : Boolean = false
-        ) {
+        ) : Parcelable{
 }

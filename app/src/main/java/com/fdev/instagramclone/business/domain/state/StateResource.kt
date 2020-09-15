@@ -6,7 +6,7 @@ data class StateMessage(val response: Response)
 
 data class Response(
         val message: String?,
-        val uiComponentType: UIComponentType,
+        val uiComponentType: UIComponentType = UIComponentType.None(),
         val messageType: MessageType
 )
 
