@@ -10,6 +10,8 @@ import com.fdev.instagramclone.business.data.network.NetworkErrors.NETWORK_ERROR
 import com.fdev.instagramclone.business.data.network.NetworkResult
 import com.fdev.instagramclone.business.data.util.GenericErrors.ERROR_UNKNOWN
 import com.fdev.instagramclone.util.cLog
+import com.fdev.instagramclone.util.printLogD
+import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext
@@ -23,12 +25,14 @@ import java.io.IOException
 
 suspend fun <T> safeApiCall(
         dispatcher: CoroutineDispatcher,
+        spesificErrorHandler: (suspend (throwable : Throwable) -> NetworkResult<Nothing>?)? = null,
         apiCall: suspend () -> T?
+
 ): NetworkResult<T?> {
     return withContext(dispatcher) {
         try {
             // throws TimeoutCancellationException
-            withTimeout(NETWORK_TIMEOUT){
+            withTimeout(NETWORK_TIMEOUT) {
                 NetworkResult.Success(apiCall.invoke())
             }
         } catch (throwable: Throwable) {
@@ -52,16 +56,34 @@ suspend fun <T> safeApiCall(
                     )
                 }
                 else -> {
-                    cLog(NETWORK_ERROR_UNKNOWN)
-                    NetworkResult.GenericError(
-                            null,
-                            NETWORK_ERROR_UNKNOWN
-                    )
+
+                    if(spesificErrorHandler == null){
+                        cLog(NETWORK_ERROR_UNKNOWN)
+                        NetworkResult.GenericError(
+                                null,
+                                NETWORK_ERROR_UNKNOWN
+                        )
+                    }else{
+                        val networkSpecificError = spesificErrorHandler.invoke(throwable)
+
+                        if(networkSpecificError== null){
+                            NetworkResult.GenericError(
+                                    null,
+                                    NETWORK_ERROR_UNKNOWN
+                            )
+                        }else{
+                            networkSpecificError
+                        }
+                    }
+
                 }
+
+
             }
         }
     }
 }
+
 
 suspend fun <T> safeCacheCall(
         dispatcher: CoroutineDispatcher,
@@ -70,12 +92,12 @@ suspend fun <T> safeCacheCall(
     return withContext(dispatcher) {
         try {
             // throws TimeoutCancellationException
-            withTimeout(CACHE_TIMEOUT){
+            withTimeout(CACHE_TIMEOUT) {
                 CacheResult.Success(cacheCall.invoke())
             }
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
-            cLog("CACHE CALL :"  + throwable.message)
+            cLog("CACHE CALL :" + throwable.message)
             when (throwable) {
 
                 is TimeoutCancellationException -> {

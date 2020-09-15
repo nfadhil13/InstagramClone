@@ -2,7 +2,7 @@ package com.fdev.instagramclone.business.data.network.abstraction
 
 import com.fdev.instagramclone.business.domain.model.User
 
-interface userNetworkDataSource {
+interface UserNetworkDataSource {
 
     suspend fun addorUpdateUser(user : User)
 

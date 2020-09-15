@@ -3,8 +3,9 @@ package com.fdev.instagramclone.framework.datasource.network.mapper
 import com.fdev.instagramclone.business.domain.model.User
 import com.fdev.instagramclone.framework.datasource.network.model.UserNetworkEntity
 import com.fdev.instagramclone.util.EntityMapper
+import javax.inject.Inject
 
-class UserNetworkMapper : EntityMapper<UserNetworkEntity, User>() {
+class UserNetworkMapper @Inject constructor() : EntityMapper<UserNetworkEntity, User>() {
     override fun mapDomainToEntity(domain: User) =
             UserNetworkEntity(
                     domain.id,

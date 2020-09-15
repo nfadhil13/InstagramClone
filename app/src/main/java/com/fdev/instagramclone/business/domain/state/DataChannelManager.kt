@@ -56,13 +56,14 @@ abstract class DataChannelManager<ViewState> {
             return false
         }
         // if a dialog is showing, do not allow new StateEvents
-        if(!isMessageStackEmpty()){
+        printLogD("DCM" , "${!isMessageManagerEmpty()}")
+        if(!isMessageManagerEmpty()){
             return false
         }
         return true
     }
 
-    fun isMessageStackEmpty(): Boolean {
+    fun isMessageManagerEmpty(): Boolean {
         return messageManager.isMessageEmpty()
     }
 

@@ -76,10 +76,6 @@ abstract class BaseViewModel<ViewState> : ViewModel()
         _viewState.value = viewState
     }
 
-    fun clearStateMessage(index: Int = 0){
-        printLogD("BaseViewModel", "clearStateMessage")
-        dataChannelManager
-    }
 
     fun clearActiveStateEvents() = dataChannelManager.clearActiveStateEventCounter()
 

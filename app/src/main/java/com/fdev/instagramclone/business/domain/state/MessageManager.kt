@@ -29,12 +29,9 @@ class MessageManager{
         return false
     }
 
-    fun removeCurrentMessage(): Boolean {
-        if(!isMessageEmpty()){
-            setStateMessage(null)
-            return true
-        }
-        return false
+    fun removeCurrentMessage() {
+        setStateMessage(null)
+
     }
 
     fun getCurrentMessasge()  = _stateMessage.value

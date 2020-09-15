@@ -1,8 +1,11 @@
 package com.fdev.instagramclone.di
 
+import com.fdev.instagramclone.framework.datasource.network.abstraction.UserFirestoreService
+import com.fdev.instagramclone.framework.datasource.network.implementation.UserFirestoreServiceImpl
 import com.fdev.instagramclone.util.SessionManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +29,8 @@ object ApplicationModule {
     fun provideSessionManager() : SessionManager{
         return SessionManager()
     }
+
+
 
 
 

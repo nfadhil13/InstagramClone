@@ -1,13 +1,14 @@
 package com.fdev.instagramclone.business.data.network.implementation
 
-import com.fdev.instagramclone.business.data.network.abstraction.userNetworkDataSource
+import com.fdev.instagramclone.business.data.network.abstraction.UserNetworkDataSource
 import com.fdev.instagramclone.business.domain.model.User
 import com.fdev.instagramclone.framework.datasource.network.abstraction.UserFirestoreService
+import javax.inject.Inject
 
 
-class UserNetworkDataSourceImpl constructor(
+class UserNetworkDataSourceImpl @Inject constructor(
         private val userFireStoreService: UserFirestoreService
-) : userNetworkDataSource {
+) : UserNetworkDataSource {
     override suspend fun addorUpdateUser(user: User) =
             userFireStoreService.addOrUpdateUser(user)
 
