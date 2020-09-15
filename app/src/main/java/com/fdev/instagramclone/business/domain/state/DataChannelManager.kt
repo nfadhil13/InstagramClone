@@ -63,7 +63,7 @@ abstract class DataChannelManager<ViewState> {
     }
 
     fun isMessageStackEmpty(): Boolean {
-        return messageManager.isStackEmpty()
+        return messageManager.isMessageEmpty()
     }
 
     private fun handleNewStateMessage(stateMessage: StateMessage){

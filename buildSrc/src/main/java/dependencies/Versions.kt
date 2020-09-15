@@ -1,6 +1,7 @@
 package dependencies
 
 object Versions {
+    val hilt_viewmodel = "1.0.0-alpha01"
     val legacy_support_version = "1.0.0"
     val firebase_auth_version = "19.3.1"
     val firebase_firestore_version = "21.6.0"

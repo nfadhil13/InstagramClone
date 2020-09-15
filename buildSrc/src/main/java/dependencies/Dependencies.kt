@@ -14,6 +14,7 @@ object Dependencies {
     val kotlin_coroutine_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutine}"
     val kotlin_coroutine_play_service = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.kotlinCoroutine}"
     val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+    val hilt_viewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_viewmodel}"
     val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
 //    val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     val ktx = "androidx.core:core-ktx:${Versions.ktx}"
@@ -29,6 +30,7 @@ object Dependencies {
     val android_legacy_support = "androidx.legacy:legacy-support-v4:${Versions.legacy_support_version}"
     val navigation_component_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
     val navigation_component_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
+
 
 
 }

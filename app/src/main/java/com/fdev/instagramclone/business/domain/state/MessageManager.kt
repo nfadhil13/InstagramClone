@@ -15,14 +15,14 @@ class MessageManager{
     val stateMessage: LiveData<StateMessage?>
         get() = _stateMessage
 
-    fun isStackEmpty(): Boolean{
+    fun isMessageEmpty(): Boolean{
         return stateMessage.value == null
     }
 
 
 
     fun add(newMessage: StateMessage): Boolean {
-        if(isStackEmpty()){
+        if(isMessageEmpty()){
             setStateMessage(newMessage)
             return true
         }
@@ -30,7 +30,7 @@ class MessageManager{
     }
 
     fun removeCurrentMessage(): Boolean {
-        if(!isStackEmpty()){
+        if(!isMessageEmpty()){
             setStateMessage(null)
             return true
         }

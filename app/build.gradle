@@ -107,6 +107,8 @@ dependencies {
     //Hilt
     implementation Dependencies.hilt
     kapt AnnotationProcess.hiltAnnotationProcess
+    implementation Dependencies.hilt_viewmodel
+    kapt AnnotationProcess.hiltViewModelAnnotationProcess
 
     //Leak canary
     implementation Dependencies.leak_canary
