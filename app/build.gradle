@@ -22,6 +22,8 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 apply plugin: 'dagger.hilt.android.plugin'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     compileSdkVersion Versions.compileSDKVersion
     buildToolsVersion Versions.buildToolsVersion
@@ -94,6 +96,10 @@ dependencies {
     implementation Dependencies.firebase_analytics
     implementation Dependencies.firebase_firestore
     implementation Dependencies.firebase_auth
+
+    //Navigation component
+    implementation Dependencies.navigation_component_fragment
+    implementation Dependencies.navigation_component_ktx
 
     //Retrofit
     implementation Dependencies.retrofit

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_launcherFragment"
+            app:destination="@id/launcherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/launcherFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.LauncherFragment"
+        android:label="LauncherFragment" >
+        <action
+            android:id="@+id/action_launcherFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_launcherFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.SignupFragment"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_confirmationCodeFragment"
+            app:destination="@id/confirmationCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationCodeFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.ConfirmationCodeFragment"
+        android:label="ConfirmationCodeFragment" >
+        <action
+            android:id="@+id/action_confirmationCodeFragment_to_inputNamePasswordFragment"
+            app:destination="@id/inputNamePasswordFragment" />
+        <action
+            android:id="@+id/action_confirmationCodeFragment_to_newPasswordFragment"
+            app:destination="@id/newPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.ForgetPasswordFragment"
+        android:label="ForgetPasswordFragment" >
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_confirmationCodeFragment"
+            app:destination="@id/confirmationCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputNamePasswordFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.InputNamePasswordFragment"
+        android:label="InputNamePasswordFragment" />
+    <fragment
+        android:id="@+id/newPasswordFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.NewPasswordFragment"
+        android:label="NewPasswordFragment" />
+</navigation>

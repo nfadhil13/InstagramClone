@@ -18,9 +18,10 @@
     <string name="name_editText_label">Full Name</string>
     <string name="password_edit_text_label">Password</string>
     <string name="name_password_title_tv">YOUR IDENTITY</string>
-    <string name="forgot_your_login_details_label">Forgot your login details?</string>
-    <string name="forget_password_button_label">Get help logging in</string>
+    <string name="forgot_your_login_details_label">Forgot your login details? </string>
+    <string name="forget_password_button_label"> Get help logging in</string>
     <string name="sing_up_btn_label">Sign up.</string>
     <string name="don_t_have_an_account_label">Don\'t have an account?</string>
     <string name="forget_password_info_label">Enter your username or email linked to your account</string>
+    <string name="find_your_account_title">Find Your Account</string>
 </resources>

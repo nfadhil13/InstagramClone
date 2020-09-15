@@ -14,6 +14,7 @@ buildscript {
         classpath Build.hilt_build
         classpath Build.google_services
         classpath Build.firebase_crashlytics_gradle
+        classpath Build.nav_component
 
     }
 }

@@ -5,6 +5,7 @@ package dependencies
 
 object Dependencies {
 
+
     val recylerView = "androidx.recyclerview:recyclerview:${Versions.recyclerviewVersion}"
     val leak_canary = "com.squareup.leakcanary:leakcanary-android:${Versions.leak_canary}"
     val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
@@ -26,6 +27,8 @@ object Dependencies {
     val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase_firestore_version}"
     val firebase_auth = "com.google.firebase:firebase-auth:${Versions.firebase_auth_version}"
     val android_legacy_support = "androidx.legacy:legacy-support-v4:${Versions.legacy_support_version}"
+    val navigation_component_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
+    val navigation_component_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
 
 
 }

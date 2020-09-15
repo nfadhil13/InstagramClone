@@ -25,4 +25,5 @@ object Versions {
     val kotlinCoroutine = "1.3.9"
     val lifecycleVersion = "2.2.0"
     val recyclerviewVersion = "1.1.0"
+    val nav_version = "2.3.0"
 }

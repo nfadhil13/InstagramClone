@@ -7,5 +7,5 @@ object Build {
     val hilt_build = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
     val google_services = "com.google.gms:google-services:${Versions.google_services_version}"
     val firebase_crashlytics_gradle = "com.google.firebase:firebase-crashlytics-gradle:${Versions.firebase_crashlyticsGradle_version}"
-
+    val nav_component = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav_version}"
 }
