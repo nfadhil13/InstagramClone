@@ -36,12 +36,7 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CoroutineScope(IO).launch {
-            delay(1000)
-            withContext(Main){
-                navToLauncher()
-            }
-        }
+        navToLauncher()
     }
 
     private fun navToLauncher(){
