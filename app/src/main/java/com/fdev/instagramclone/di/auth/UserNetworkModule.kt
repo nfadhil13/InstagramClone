@@ -17,19 +17,6 @@ import dagger.hilt.android.components.ActivityComponent
 object UserNetworkModule {
 
 
-    @Provides
-    fun provideAuthInteractor(
-            logIn: LogIn
-    ) : AuthInteractors {
-        return AuthInteractors(logIn)
-    }
-
-    @Provides
-    fun provideLogIn(
-            userNetworkDataSource: UserNetworkDataSource
-    ) : LogIn{
-        return LogIn(userNetworkDataSource)
-    }
 
 
 

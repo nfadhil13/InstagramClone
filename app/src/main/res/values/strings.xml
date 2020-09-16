@@ -24,4 +24,8 @@
     <string name="don_t_have_an_account_label">Don\'t have an account?</string>
     <string name="forget_password_info_label">Enter your username or email linked to your account</string>
     <string name="find_your_account_title">Find Your Account</string>
+    <string name="warn_title_tv">Registration will be failed If you</string>
+    <string name="close_the_app_tv">Close the App</string>
+    <string name="or_label">or</string>
+    <string name="press_back_button_label">Press back button</string>
 </resources>

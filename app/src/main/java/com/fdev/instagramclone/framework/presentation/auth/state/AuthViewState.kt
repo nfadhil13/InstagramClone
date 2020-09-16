@@ -5,9 +5,9 @@ import com.fdev.instagramclone.business.domain.model.User
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class AuthViewState (
+data class AuthViewState(
 
-        var confirmationCodeViewState: ConfirmationCodeViewState? = null ,
+        var waitVerifiedViewState: WaitVerifiedViewState? = null,
 
         var forgetPasswordViewState: ForgetPasswordViewState? = null,
 
@@ -15,19 +15,22 @@ data class AuthViewState (
 
         var loginViewState: LoginViewState? = null,
 
-        var newPasswordViewState: NewPasswordViewState? = null ,
+        var newPasswordViewState: NewPasswordViewState? = null,
 
         var signUpViewState: SignUpViewState? = null,
 
-        var succesUser : User?  = null
 
-) : Parcelable
+        ) : Parcelable
 
 
 @Parcelize
-data class ConfirmationCodeViewState(
-        var enteredCode : String? = null
-) : Parcelable
+data class WaitVerifiedViewState(
+        var userVerfiedStatus : Boolean = false,
+        var verifiedUser : User? = null,
+        var tempPassword: String? = null
+) : Parcelable {
+
+}
 
 @Parcelize
 data class ForgetPasswordViewState(
@@ -45,7 +48,8 @@ data class EnterNamePasswordViewState(
 @Parcelize
 data class LoginViewState(
         var email : String?  = null,
-        var password : String? = null
+        var password : String? = null,
+        var succesUser : User? = null
 ) : Parcelable
 
 @Parcelize
@@ -55,9 +59,11 @@ data class NewPasswordViewState(
 
 @Parcelize
 data class SignUpViewState(
-        var email : String?,
-        var mode : String,
-        var number : String?
+        var email : String? = null,
+        var mode : String? = null,
+        var number : String? = null,
+        var succesUser : User? = null,
+        var tempPassword : String? = null
 ) : Parcelable {
     companion object{
         const val SIGPUP_WITH_EMAIL = "EMAIL"

@@ -6,11 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
+import com.fdev.instagramclone.business.domain.state.StateEvent
 import com.fdev.instagramclone.databinding.FragmentSignupBinding
+import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
+import com.fdev.instagramclone.util.printLogD
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
-
+@FlowPreview
+@ExperimentalCoroutinesApi
 class SignupFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null
@@ -19,6 +29,7 @@ class SignupFragment : Fragment() {
         get() = _binding!!
 
 
+    private val viewModel : AuthViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -27,9 +38,28 @@ class SignupFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.setupChannel()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initObserver()
         initClickListner()
+    }
+
+    private fun initObserver() {
+        viewModel.viewState.observe(viewLifecycleOwner, Observer {viewState->
+            viewState.signUpViewState?.let{signUpViewState ->
+                if(signUpViewState.succesUser != null && signUpViewState.tempPassword != null){
+                    viewModel.setNewVerfiedUser(signUpViewState.succesUser!!, signUpViewState.tempPassword!!)
+                    viewModel.setSignUpViewStatetoNull()
+                    navToWaitVerified()
+                }
+            }
+        })
+
     }
 
     private fun initClickListner() {
@@ -41,8 +71,8 @@ class SignupFragment : Fragment() {
 
             btnSignupNext.setOnClickListener {
                 //Do signup thing
+                signupIntent()
 
-                navToConfirmationCode()
             }
 
             loginMethodEmailTv.setOnClickListener {
@@ -55,12 +85,19 @@ class SignupFragment : Fragment() {
         }
     }
 
+
+    private fun signupIntent() {
+        binding.apply {
+            viewModel.setStateEvent(AuthStateEvent.SignupStateEvent(emailEditText.text.toString()))
+        }
+    }
+
     private fun navToLogin() {
         findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
     }
 
-    private fun navToConfirmationCode() {
-        findNavController().navigate(R.id.action_signupFragment_to_confirmationCodeFragment)
+    private fun navToWaitVerified() {
+        findNavController().navigate(R.id.action_signupFragment_to_waitVerifiedFragment)
     }
 
     private fun setTOEmailMode(){

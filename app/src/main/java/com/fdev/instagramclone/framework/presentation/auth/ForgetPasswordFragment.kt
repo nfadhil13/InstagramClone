@@ -41,7 +41,7 @@ class ForgetPasswordFragment : Fragment(){
     }
 
     private fun navToNewPassword(){
-        findNavController().navigate(R.id.action_forgetPasswordFragment_to_confirmationCodeFragment)
+//        findNavController().navigate(R.id.action_forgetPasswordFragment_to_confirmationCodeFragment)
     }
 
     override fun onDestroyView() {

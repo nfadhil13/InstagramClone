@@ -6,13 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentLoginBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.util.printLogD
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class LoginFragment : Fragment() {
 
 
@@ -24,6 +30,11 @@ class LoginFragment : Fragment() {
         get() = _binding!!
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.setupChannel()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
@@ -33,17 +44,19 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initClickListener()
         initObserver()
+        initClickListener()
+
     }
 
     private fun initObserver() {
-        viewModel.stateMessage.observe(viewLifecycleOwner, Observer {
-            it?.let { message ->
-                printLogD("LoginFragment" , "This is new message $message")
-                viewModel.clearAllStateMessages()
+        viewModel.viewState.observe(viewLifecycleOwner , Observer {viewState->
+            viewState.loginViewState?.succesUser?.let {
+                printLogD("Loginfragment" , "Succes Login with ${it.email}")
             }
         })
+
+
     }
 
     private fun initClickListener() {

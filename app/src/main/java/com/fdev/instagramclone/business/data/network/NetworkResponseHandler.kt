@@ -3,6 +3,7 @@ package com.fdev.instagramclone.business.data.network
 import com.fdev.instagramclone.business.data.network.NetworkErrors.NETWORK_DATA_NULL
 import com.fdev.instagramclone.business.data.network.NetworkErrors.NETWORK_ERROR
 import com.fdev.instagramclone.business.domain.state.*
+import com.fdev.instagramclone.util.printLogD
 
 abstract class NetworkResponseHandler <ViewState, Data>(
         private val response: NetworkResult<Data?>,
@@ -36,6 +37,7 @@ abstract class NetworkResponseHandler <ViewState, Data>(
             }
 
             is NetworkResult.Success -> {
+                printLogD("NetworkResponse", "response.value is null ${response.value == null}")
                 if(response.value == null){
                     DataState.error(
                             response = Response(

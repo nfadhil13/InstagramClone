@@ -6,6 +6,7 @@ import com.fdev.instagramclone.framework.datasource.network.mapper.UserNetworkMa
 import com.fdev.instagramclone.framework.datasource.network.model.UserNetworkEntity
 import com.fdev.instagramclone.util.cLog
 import com.fdev.instagramclone.util.printLogD
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -33,6 +34,23 @@ constructor(
                 .await()
     }
 
+    override suspend fun deleteUser(user: User) {
+        val firebaseUser = firebaseAuth.currentUser
+
+        firebaseUser?.let{
+            if(it.uid.equals(user.id)){
+                user.id?.let{
+                    firestore.collection(com.fdev.instagramclone.framework.datasource.network.implementation.UserFirestoreServiceImpl.Companion.USER_COLLECTION)
+                            .document(it)
+                            .delete()
+                }
+            }
+        }
+
+
+
+    }
+
     override suspend fun getUser(id: String): User? {
         return firestore.collection(USER_COLLECTION)
                 .document(id)
@@ -47,7 +65,7 @@ constructor(
         val authResult = firebaseAuth.signInWithEmailAndPassword(
                 email , password
         ).await()
-
+        printLogD("UserFirestoreServiceImpl" , "authResult is null ${authResult==null}")
         authResult?.user?.let { firebaseUser ->
             return this.getUser(firebaseUser.uid)
         } ?: return null
@@ -55,27 +73,12 @@ constructor(
 
 
     override suspend fun signupWithEmail(email: String , password: String): User? {
-        val checkUserEmail = firestore.collection(USER_COLLECTION)
-                .whereEqualTo(USER_EMAIL_FIELD , email)
-                .get()
-                .await()
-
-
-
-        val isEmailExist = !checkUserEmail
-                .isEmpty
-
-        printLogD("UserFirestoreServiceImpl" , "isEmailExist $isEmailExist")
-
-        if(isEmailExist){
-            val existUser = checkUserEmail.toObjects(UserNetworkEntity::class.java)
-            return userMapper.mapEntityToDomain(existUser[0])
-        }else{
             val authResult = firebaseAuth.createUserWithEmailAndPassword(
                     email, password
             ).await()
 
             authResult?.user?.let { firebaseUser ->
+                this.sendEmailVerification()
                 return User(
                         id = firebaseUser.uid,
                         username = "",
@@ -85,8 +88,6 @@ constructor(
                         following = ArrayList()
                 )
             } ?: return null
-        }
-
     }
 
     override suspend fun getCurrentUser(): User? {
@@ -106,7 +107,6 @@ constructor(
 
     override suspend fun sendEmailVerification(): Boolean {
         val firebaseUser = firebaseAuth.currentUser
-
         var isSent = false
 
         firebaseUser?.sendEmailVerification()
@@ -141,5 +141,41 @@ constructor(
 
         return isSent
     }
+
+    override suspend fun getUserByEmail(email: String): User? {
+        val checkUserEmail = firestore.collection(USER_COLLECTION)
+                .whereEqualTo(USER_EMAIL_FIELD , email)
+                .get()
+                .await()
+
+
+
+        val isEmailExist = !checkUserEmail
+                .isEmpty
+
+        printLogD("UserFirestoreServiceImpl" , "isEmailExist $isEmailExist")
+
+        if(isEmailExist){
+            val existUser = checkUserEmail.toObjects(UserNetworkEntity::class.java)[0]
+            return userMapper.mapEntityToDomain(existUser)
+        }else{
+            return null
+        }
+    }
+
+    override suspend fun isUserVerfied(password: String): Boolean {
+        val currentFirebaseUser = firebaseAuth.currentUser
+
+        var isVerified = false
+
+        currentFirebaseUser?.let{
+            val credential = EmailAuthProvider.getCredential(it.email!! , password)
+            isVerified =
+                    currentFirebaseUser.reauthenticateAndRetrieveData(credential).await().user?.isEmailVerified ?: false
+        }
+
+        return isVerified
+    }
+
 
 }

@@ -6,6 +6,8 @@ interface UserFirestoreService {
 
     suspend fun addOrUpdateUser(user: User)
 
+    suspend fun deleteUser(user : User)
+
     suspend fun getUser(id: String): User?
 
     suspend fun loginWithEmail(email: String, password: String): User?
@@ -19,6 +21,10 @@ interface UserFirestoreService {
     suspend fun checkIfUsernameExist(username : String) : Boolean
 
     suspend fun resetEmail(email: String): Boolean
+
+    suspend fun getUserByEmail(email : String) : User?
+
+    suspend fun isUserVerfied(password: String): Boolean
 
 
 }

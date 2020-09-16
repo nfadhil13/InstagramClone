@@ -16,6 +16,9 @@ class UserNetworkDataSourceImpl @Inject constructor(
     override suspend fun getUser(id: String) =
             userFireStoreService.getUser(id)
 
+    override suspend fun deleteUser(user: User)
+        = userFireStoreService.deleteUser(user)
+
 
     override suspend fun loginWithEmail(email: String, password: String) =
             userFireStoreService.loginWithEmail(email, password)
@@ -35,5 +38,12 @@ class UserNetworkDataSourceImpl @Inject constructor(
 
     override suspend fun resetEmail(email: String): Boolean
         = userFireStoreService.resetEmail(email)
+
+    override suspend fun getUserByEmail(email: String): User?
+        = userFireStoreService.getUserByEmail(email)
+
+    override suspend fun isUserVerified(password : String): Boolean
+        = userFireStoreService.isUserVerfied(password)
+
 
 }

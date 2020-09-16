@@ -16,4 +16,16 @@ constructor(
         var followers : List<String>,
         var isRegistered : Boolean = false
         ) : Parcelable{
+
+        constructor() : this(
+                "" ,
+                "",
+                "",
+                "",
+                "",
+                "",
+                ArrayList(),
+                ArrayList(),
+                false
+        )
 }

@@ -43,34 +43,23 @@
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_signupFragment_to_confirmationCodeFragment"
-            app:destination="@id/confirmationCodeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/confirmationCodeFragment"
-        android:name="com.fdev.instagramclone.framework.presentation.auth.ConfirmationCodeFragment"
-        android:label="ConfirmationCodeFragment" >
-        <action
-            android:id="@+id/action_confirmationCodeFragment_to_inputNamePasswordFragment"
-            app:destination="@id/inputNamePasswordFragment" />
-        <action
-            android:id="@+id/action_confirmationCodeFragment_to_newPasswordFragment"
-            app:destination="@id/newPasswordFragment" />
+            android:id="@+id/action_signupFragment_to_waitVerifiedFragment"
+            app:destination="@id/waitVerifiedFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgetPasswordFragment"
         android:name="com.fdev.instagramclone.framework.presentation.auth.ForgetPasswordFragment"
-        android:label="ForgetPasswordFragment" >
-        <action
-            android:id="@+id/action_forgetPasswordFragment_to_confirmationCodeFragment"
-            app:destination="@id/confirmationCodeFragment" />
-    </fragment>
+        android:label="ForgetPasswordFragment" />
     <fragment
         android:id="@+id/inputNamePasswordFragment"
         android:name="com.fdev.instagramclone.framework.presentation.auth.InputNamePasswordFragment"
         android:label="InputNamePasswordFragment" />
     <fragment
-        android:id="@+id/newPasswordFragment"
-        android:name="com.fdev.instagramclone.framework.presentation.auth.NewPasswordFragment"
-        android:label="NewPasswordFragment" />
+        android:id="@+id/waitVerifiedFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.auth.WaitVerifiedFragment"
+        android:label="WaitVerifiedFragment" >
+        <action
+            android:id="@+id/action_waitVerifiedFragment_to_inputNamePasswordFragment"
+            app:destination="@id/inputNamePasswordFragment" />
+    </fragment>
 </navigation>
