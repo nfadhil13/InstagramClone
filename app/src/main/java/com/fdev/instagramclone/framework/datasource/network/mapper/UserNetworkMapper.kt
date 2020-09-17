@@ -8,28 +8,28 @@ import javax.inject.Inject
 class UserNetworkMapper @Inject constructor() : EntityMapper<UserNetworkEntity, User>() {
     override fun mapDomainToEntity(domain: User) =
             UserNetworkEntity(
-                    domain.id,
-                    domain.username,
-                    domain.email,
-                    domain.profileImage,
-                    domain.bio,
-                    domain.name,
-                    domain.following,
-                    domain.followers,
-                    domain.isRegistered
+                    id = domain.id,
+                    username = domain.username,
+                    email = domain.email,
+                    profileImage= domain.profileImage,
+                    bio = domain.bio,
+                    name = domain.name,
+                    following = domain.following,
+                    followers =domain.followers,
+                    isRegistered = domain.isRegistered
             )
 
     override fun mapEntityToDomain(entity: UserNetworkEntity) =
             User(
-                    entity.id,
-                    entity.username,
-                    entity.email,
-                    entity.profileImage,
-                    entity.bio,
-                    entity.name,
-                    entity.following,
-                    entity.followers,
-                    entity.isRegistered
+                    id= entity.id,
+                    username = entity.username,
+                    email = entity.email,
+                    profileImage =  entity.profileImage,
+                    bio = entity.bio,
+                    name = entity.name,
+                    following = entity.following,
+                    followers = entity.followers,
+                    isRegistered = entity.isRegistered
             )
 
     override fun mapToListEntity(domains: List<User>): List<UserNetworkEntity> {

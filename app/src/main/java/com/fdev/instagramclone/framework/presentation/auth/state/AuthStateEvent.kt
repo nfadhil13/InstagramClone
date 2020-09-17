@@ -70,4 +70,21 @@ sealed class AuthStateEvent : StateEvent {
 
     }
 
+    class InputNamePassword(var user : User ,var  password: String) : AuthStateEvent(){
+        override fun errorInfo(): String = "Error to input"
+
+        override fun eventName(): String =  "InputNamePassword"
+
+        override fun shouldDisplayProgressBar(): Boolean = true
+
+    }
+
+    class ForgetPassword(var email : String) : AuthStateEvent(){
+        override fun errorInfo(): String = "Failed to sent email"
+
+        override fun eventName(): String =  "ForgetPassword"
+
+        override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
 }

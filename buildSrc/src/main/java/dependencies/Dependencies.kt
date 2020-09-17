@@ -30,6 +30,7 @@ object Dependencies {
     val android_legacy_support = "androidx.legacy:legacy-support-v4:${Versions.legacy_support_version}"
     val navigation_component_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
     val navigation_component_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
+    val material_dialog = "com.afollestad.material-dialogs:core:${Versions.material_dialog}"
 
 
 

@@ -5,6 +5,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="md_color_title">@color/blackLine</item>
+        <item name="md_color_content">#A8A7A7</item>
+        <item name="md_color_button_text">@color/colorAccent</item>
+
     </style>
 
 </resources>

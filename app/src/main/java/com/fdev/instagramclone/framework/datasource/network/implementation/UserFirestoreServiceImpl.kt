@@ -177,5 +177,28 @@ constructor(
         return isVerified
     }
 
+    override suspend fun updatePassword(password: String): Boolean {
+        val currentFirebaseUser = firebaseAuth.currentUser
+
+        var isSucces = false
+
+        currentFirebaseUser?.updatePassword(password)
+                ?.addOnSuccessListener {
+                    isSucces = true
+                }?.await()
+
+        return isSucces
+    }
+
+    override suspend fun sendRestPasswordEmail(email: String): Boolean {
+        var isSent = false
+        firebaseAuth.sendPasswordResetEmail(email)
+                .addOnSuccessListener {
+                    isSent = true
+                }.await()
+
+        return isSent
+    }
+
 
 }

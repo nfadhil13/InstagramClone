@@ -7,21 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
-import com.fdev.instagramclone.business.domain.state.StateEvent
+import com.fdev.instagramclone.business.domain.state.StateMessage
+import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentSignupBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.util.printLogD
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class SignupFragment : Fragment() {
+class SignupFragment : BaseAuthFragment() {
 
     private var _binding: FragmentSignupBinding? = null
 
@@ -29,7 +28,6 @@ class SignupFragment : Fragment() {
         get() = _binding!!
 
 
-    private val viewModel : AuthViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -49,15 +47,29 @@ class SignupFragment : Fragment() {
         initClickListner()
     }
 
+    override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
+        uiController.onResponseReceived(
+                stateMessage.response,
+                stateMessageCallback
+        )
+    }
+
     private fun initObserver() {
         viewModel.viewState.observe(viewLifecycleOwner, Observer {viewState->
+            printLogD("Signupfragment" , "New viewstate ${viewState.signUpViewState}")
             viewState.signUpViewState?.let{signUpViewState ->
+
+                signUpViewState.email?.let{
+                    binding.emailEditText.setText(it)
+                }
+
                 if(signUpViewState.succesUser != null && signUpViewState.tempPassword != null){
                     viewModel.setNewVerfiedUser(signUpViewState.succesUser!!, signUpViewState.tempPassword!!)
                     viewModel.setSignUpViewStatetoNull()
                     navToWaitVerified()
                 }
             }
+
         })
 
     }
@@ -132,7 +144,12 @@ class SignupFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        saveSignUpfields()
         _binding = null
+    }
+
+    private fun saveSignUpfields(){
+        viewModel.setSignupField(binding.emailEditText.text.toString())
     }
 
 

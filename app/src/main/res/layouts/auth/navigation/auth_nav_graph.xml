@@ -11,7 +11,10 @@
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/action_splashFragment_to_launcherFragment"
-            app:destination="@id/launcherFragment" />
+            app:destination="@id/launcherFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/auth_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/launcherFragment"
@@ -49,11 +52,23 @@
     <fragment
         android:id="@+id/forgetPasswordFragment"
         android:name="com.fdev.instagramclone.framework.presentation.auth.ForgetPasswordFragment"
-        android:label="ForgetPasswordFragment" />
+        android:label="ForgetPasswordFragment" >
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_launcherFragment"
+            app:destination="@id/launcherFragment" />
+    </fragment>
     <fragment
         android:id="@+id/inputNamePasswordFragment"
         android:name="com.fdev.instagramclone.framework.presentation.auth.InputNamePasswordFragment"
-        android:label="InputNamePasswordFragment" />
+        android:label="InputNamePasswordFragment" >
+        <action
+            android:id="@+id/action_inputNamePasswordFragment_to_launcherFragment"
+            app:destination="@id/launcherFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/auth_nav_graph"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
     <fragment
         android:id="@+id/waitVerifiedFragment"
         android:name="com.fdev.instagramclone.framework.presentation.auth.WaitVerifiedFragment"
@@ -61,5 +76,11 @@
         <action
             android:id="@+id/action_waitVerifiedFragment_to_inputNamePasswordFragment"
             app:destination="@id/inputNamePasswordFragment" />
+        <action
+            android:id="@+id/action_waitVerifiedFragment_to_launcherFragment"
+            app:destination="@id/launcherFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/auth_nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

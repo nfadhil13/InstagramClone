@@ -5,18 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
+import com.fdev.instagramclone.business.domain.state.StateMessage
+import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentLauncherBinding
 import com.fdev.instagramclone.databinding.FragmentSplashBinding
 
 
-class LauncherFragment : Fragment() {
+class LauncherFragment : BaseAuthFragment() {
 
     private  var _binding : FragmentLauncherBinding? = null
 
     private val binding
         get() = _binding!!
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -28,6 +35,9 @@ class LauncherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initClickListener()
+    }
+
+    override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
     }
 
 

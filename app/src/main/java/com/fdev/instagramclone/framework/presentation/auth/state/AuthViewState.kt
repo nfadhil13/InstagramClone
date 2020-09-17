@@ -34,15 +34,14 @@ data class WaitVerifiedViewState(
 
 @Parcelize
 data class ForgetPasswordViewState(
-        var forgotenAccountEmail : String? = null
+        var forgotenAccountEmail : String? = null,
+        var isSuccess : Boolean = false
 ) : Parcelable
 
 
 @Parcelize
 data class EnterNamePasswordViewState(
-        var username : String? = null,
-        var fullName : String? = null,
-        var password : String? = null
+        val user : User? = null
 ) : Parcelable
 
 @Parcelize

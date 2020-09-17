@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/confirmation_code_firstline"
+        android:text="@string/email_has_been_sent"
         android:textColor="@color/blackLine"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/confirmation_info_secondline_layout"

@@ -3,11 +3,9 @@ package com.fdev.instagramclone.business.interactors.auth
 import com.fdev.instagramclone.business.data.network.NetworkResponseHandler
 import com.fdev.instagramclone.business.data.network.abstraction.UserNetworkDataSource
 import com.fdev.instagramclone.business.data.util.safeApiCall
+import com.fdev.instagramclone.business.data.util.safeFirebaseAuthCall
 import com.fdev.instagramclone.business.domain.model.User
-import com.fdev.instagramclone.business.domain.state.DataState
-import com.fdev.instagramclone.business.domain.state.MessageType
-import com.fdev.instagramclone.business.domain.state.Response
-import com.fdev.instagramclone.business.domain.state.StateEvent
+import com.fdev.instagramclone.business.domain.state.*
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthViewState
 import com.fdev.instagramclone.framework.presentation.auth.state.LoginViewState
 import com.fdev.instagramclone.framework.presentation.auth.state.SignUpViewState
@@ -26,6 +24,7 @@ constructor(
     companion object {
         const val SIGNUP_SUCCESS = "Signup success"
         const val SIGNUP_FAILED = "Signup failed"
+        const val SIGNUP_FAILED_REGISTERED = "This Email is on Another Account"
     }
 
     fun signupWithEmail(
@@ -33,18 +32,35 @@ constructor(
             stateEvent: StateEvent
     ): Flow<DataState<AuthViewState>?> = flow {
         printLogD("SignUp", "user trying to signUp : ${email}")
-        val tempPassword = UUID.randomUUID().toString()
+        var tempPassword = UUID.randomUUID().toString()
 
-        val networkCall = safeApiCall(IO) {
-            userNetworkDataSource.signupWithEmail(email, tempPassword)
+        val networkCall = safeApiCall(IO , {
+            safeFirebaseAuthCall(it)
+        }) {
+            var user = userNetworkDataSource.getUserByEmail(email)
+            if(user!=null){
+                printLogD("SignUp", "userfound : ${user.email} , ${user.bio}  , ${user.isRegistered}")
+                if(!user.isRegistered){
+                    tempPassword = user.bio
+                    userNetworkDataSource.loginWithEmail(email,tempPassword)
+                    userNetworkDataSource.sendEmailVerfication()
+                }
+            }else{
+                user = userNetworkDataSource.signupWithEmail(email,tempPassword)
+                user?.let{
+                    user.bio = tempPassword
+                    userNetworkDataSource.addorUpdateUser(it)
+                }
+            }
+            user
         }
 
-        val result = object : NetworkResponseHandler<AuthViewState, User?>(
+        val result = object : NetworkResponseHandler<AuthViewState, User>(
                 response = networkCall,
                 stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: User?): DataState<AuthViewState>? {
-                return if (resultObj != null) {
+            override suspend fun handleSuccess(resultObj: User): DataState<AuthViewState>? {
+                return if (!resultObj.isRegistered) {
                     printLogD("SignUp", "user trying to signUp : ${resultObj?.email}")
                     DataState.data(
                             response = Response(
@@ -61,7 +77,8 @@ constructor(
                 } else {
                     DataState.error(
                             response = Response(
-                                    message = SIGNUP_SUCCESS,
+                                    message = SIGNUP_FAILED_REGISTERED,
+                                    uiComponentType = UIComponentType.Dialog(),
                                     messageType = MessageType.Error()
                             ),
                             stateEvent = stateEvent
@@ -71,7 +88,7 @@ constructor(
 
         }.getResult()
 
-        printLogD("LogIn","Emitting the result")
+        printLogD("LogIn", "Emitting the result")
         emit(result)
 
     }

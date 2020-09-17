@@ -16,10 +16,10 @@ sealed class UIComponentType{
 
     class Dialog: UIComponentType()
 
-//    class AreYouSureDialog(
-//            val callback: AreYouSureCallback
-//    ): UIComponentType()
-//
+    class AreYouSureDialog(
+            val callback: AreYouSureCallback
+    ): UIComponentType()
+
     class SnackBar: UIComponentType()
 
     class None: UIComponentType()
@@ -35,3 +35,22 @@ sealed class MessageType{
 
     class None: MessageType()
 }
+
+interface StateMessageCallback{
+
+    fun removeMessageFromStack()
+}
+
+interface AreYouSureCallback {
+
+    fun proceed()
+
+    fun cancel()
+}
+
+interface DialogInputCaptureCallback {
+
+    fun onTextCaptured(text: String)
+}
+
+

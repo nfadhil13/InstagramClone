@@ -26,5 +26,9 @@ interface UserFirestoreService {
 
     suspend fun isUserVerfied(password: String): Boolean
 
+    suspend fun updatePassword(password: String): Boolean
+
+    suspend fun sendRestPasswordEmail(email: String): Boolean
+
 
 }

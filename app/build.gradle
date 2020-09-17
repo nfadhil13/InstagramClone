@@ -88,6 +88,8 @@ dependencies {
     //Live data & ViewModel
     implementation Dependencies.liveData
     implementation Dependencies.lifecycle_runtime
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     kapt AnnotationProcess.lifeCycleAnnotationProcess
 
 
@@ -112,5 +114,8 @@ dependencies {
 
     //Leak canary
     implementation Dependencies.leak_canary
+
+    //Material dialog
+    implementation Dependencies.material_dialog
 
 }

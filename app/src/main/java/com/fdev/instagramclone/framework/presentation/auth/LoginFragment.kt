@@ -6,23 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
+import com.fdev.instagramclone.business.domain.state.StateMessage
+import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentLoginBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.util.printLogD
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class LoginFragment : Fragment() {
+class LoginFragment : BaseAuthFragment() {
 
 
-    private val viewModel : AuthViewModel by activityViewModels()
 
     private var _binding: FragmentLoginBinding? = null
 
@@ -30,10 +29,6 @@ class LoginFragment : Fragment() {
         get() = _binding!!
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.setupChannel()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -49,20 +44,42 @@ class LoginFragment : Fragment() {
 
     }
 
+    override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
+        uiController.onResponseReceived(
+                stateMessage.response,
+                stateMessageCallback
+        )
+    }
+
     private fun initObserver() {
         viewModel.viewState.observe(viewLifecycleOwner , Observer {viewState->
-            viewState.loginViewState?.succesUser?.let {
-                printLogD("Loginfragment" , "Succes Login with ${it.email}")
+            printLogD("Loginfragment" , "New viewstate ${viewState.loginViewState}")
+            viewState.loginViewState?.let{
+                it.email?.let{lastEmail ->
+                    binding.emailEditText.setText(lastEmail)
+                }
+
+                it.password?.let{lastPassword->
+                    binding.passwordEditText.setText(lastPassword)
+                }
+
+                it.succesUser?.let{ succesUser ->
+                    viewModel.logIn(succesUser)
+                }
             }
+
+
         })
 
-
     }
+
+
 
     private fun initClickListener() {
         binding.apply {
             goToSignupBtn.setOnClickListener {
                 navToSignup()
+
             }
 
             forgetPasswordBtn.setOnClickListener {
@@ -83,6 +100,7 @@ class LoginFragment : Fragment() {
         viewModel.setStateEvent(AuthStateEvent.LoginStateEvent(email,password))
     }
 
+
     private fun navToSignup() {
         findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
     }
@@ -93,7 +111,17 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        saveLoginfields()
         _binding = null
+    }
+
+    private fun saveLoginfields() {
+        binding.apply {
+            viewModel.setLoginField(
+                    emailEditText.text.toString(),
+                    passwordEditText.text.toString()
+            )
+        }
     }
 
 }

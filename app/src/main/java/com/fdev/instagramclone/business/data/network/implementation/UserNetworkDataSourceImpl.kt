@@ -45,5 +45,10 @@ class UserNetworkDataSourceImpl @Inject constructor(
     override suspend fun isUserVerified(password : String): Boolean
         = userFireStoreService.isUserVerfied(password)
 
+    override suspend fun updatePassword(password: String): Boolean
+        = userFireStoreService.updatePassword(password)
+
+    override suspend fun sendRestPasswordEmail(email: String): Boolean
+        = userFireStoreService.sendRestPasswordEmail(email)
 
 }

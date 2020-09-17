@@ -1,5 +1,6 @@
 package com.fdev.instagramclone.framework.presentation.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,12 +9,17 @@ import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.business.domain.model.User
+import com.fdev.instagramclone.business.domain.state.DialogInputCaptureCallback
 import com.fdev.instagramclone.business.domain.state.Response
 import com.fdev.instagramclone.business.domain.state.UIComponentType
 import com.fdev.instagramclone.databinding.ActivityAuthBinding
 import com.fdev.instagramclone.framework.datasource.network.implementation.UserFirestoreServiceImpl
 import com.fdev.instagramclone.framework.datasource.network.mapper.UserNetworkMapper
+import com.fdev.instagramclone.framework.presentation.BaseActivity
+import com.fdev.instagramclone.framework.presentation.UIController
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
+import com.fdev.instagramclone.framework.presentation.main.MainActivity
+import com.fdev.instagramclone.util.SessionManager
 import com.fdev.instagramclone.util.cLog
 import com.fdev.instagramclone.util.printLogD
 import com.google.android.material.snackbar.Snackbar
@@ -30,13 +36,13 @@ import kotlin.collections.ArrayList
 @ExperimentalCoroutinesApi
 @FlowPreview
 @AndroidEntryPoint
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : BaseActivity(){
 
 
     private  var _binding : ActivityAuthBinding? = null
 
-
-    private val viewModel : AuthViewModel by viewModels()
+    @Inject
+    lateinit var sessionManager : SessionManager
 
     private val binding
         get() = _binding!!
@@ -51,30 +57,36 @@ class AuthActivity : AppCompatActivity() {
 
         subsribeObserver()
 
+
     }
 
 
     private fun subsribeObserver() {
-        viewModel.shouldDisplayProgressBar.observe(this, androidx.lifecycle.Observer {
-            printLogD("AuthActivity" , "New Message progressbar status ${it}")
-            binding.mainProgressbar.show(it)
-        })
 
-        viewModel.stateMessage.observe(this , androidx.lifecycle.Observer {
+        sessionManager.currentUser.observe(this , androidx.lifecycle.Observer {
             it?.let{
-
-                viewModel.clearAllStateMessages()
+                goToMainActivity()
             }
-
         })
     }
+
+    private fun goToMainActivity() {
+        val intent = Intent(this , MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    fun ProgressBar.show(show : Boolean){
-        if(show){
+    override fun displayProgressBar(isDisplayed: Boolean) {
+        binding.mainProgressbar.show(isDisplayed)
+    }
+
+    fun ProgressBar.show(isDisplayed: Boolean){
+        if(isDisplayed){
             visibility = View.VISIBLE
         }else{
             visibility = View.INVISIBLE

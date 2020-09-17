@@ -5,5 +5,7 @@ import javax.inject.Inject
 class AuthInteractors @Inject constructor(
         val loginInteractor : LogIn,
         val signUpInteractor : SignUp,
-        val checkIsUserVerifiedInteractor: CheckIsUserVerified
+        val checkIsUserVerifiedInteractor: CheckIsUserVerified,
+        val inputNamePassword: InputNamePassword,
+        val resetPassword: ResetPassword
 )

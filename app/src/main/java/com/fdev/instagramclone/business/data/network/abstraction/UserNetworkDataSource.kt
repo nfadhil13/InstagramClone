@@ -26,6 +26,9 @@ interface UserNetworkDataSource {
 
     suspend fun isUserVerified(password : String) : Boolean
 
+    suspend fun updatePassword(password : String) : Boolean
+
+    suspend fun sendRestPasswordEmail(email : String) : Boolean
 
 
 }

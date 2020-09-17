@@ -28,4 +28,16 @@
     <string name="close_the_app_tv">Close the App</string>
     <string name="or_label">or</string>
     <string name="press_back_button_label">Press back button</string>
+
+
+<!--   Forget password email has been sent-->
+    <string name="email_has_been_sent">We have sent email to</string>
+    <string name="text_info">Info</string>
+    <string name="text_ok">ok</string>
+    <string name="text_error">Error!</string>
+    <string name="text_success">Success</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="text_cancel">cancel</string>
+    <string name="text_yes">yes</string>
+    <string name="your_email_not_verfied_yet">Your email not verified yet</string>
 </resources>
