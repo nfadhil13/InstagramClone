@@ -1,12 +1,10 @@
 package com.fdev.instagramclone.framework.presentation.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
@@ -15,7 +13,7 @@ import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentSignupBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.framework.presentation.changeTextcolor
-import com.fdev.instagramclone.util.EmailEditTextCallback
+import com.fdev.instagramclone.util.cutomview.EmailEditTextCallback
 import com.fdev.instagramclone.util.printLogD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -116,7 +114,9 @@ class SignupFragment : BaseAuthFragment() {
 
             btnSignupNext.setOnClickListener {
                 //Do signup thing
-                signupIntent()
+                if(emailEditText.validateEmail()){
+                    signupIntent()
+                }
 
             }
 

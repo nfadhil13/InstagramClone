@@ -12,7 +12,7 @@ import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentLoginBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.framework.presentation.changeTextcolor
-import com.fdev.instagramclone.util.EmailEditTextCallback
+import com.fdev.instagramclone.util.cutomview.EmailEditTextCallback
 import com.fdev.instagramclone.util.printLogD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -46,7 +46,7 @@ class LoginFragment : BaseAuthFragment() {
     }
 
     private fun initUI() {
-        binding.emailEditText.addOnInvalidCallBack(object : EmailEditTextCallback{
+        binding.emailEditText.addOnInvalidCallBack(object : EmailEditTextCallback {
             override fun onInvalidEmailInput() {
                 binding.emailWarnTv.let{
                     it.text = getString(R.string.invalid_email_field_warn)

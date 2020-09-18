@@ -69,6 +69,14 @@ class InputNamePasswordFragment() : BaseAuthFragment(){
         super.onViewCreated(view, savedInstanceState)
         initObserver()
         initClickListener()
+        initUI()
+    }
+
+    private fun initUI() {
+        binding.apply {
+            passwordEditText.textView = passwordWarnTv
+            usernameEditText.warnTextView = usernameWarnTv
+        }
     }
 
     override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
@@ -97,14 +105,16 @@ class InputNamePasswordFragment() : BaseAuthFragment(){
         binding.apply {
             btnSignupNext.setOnClickListener {
                 if(::currentUser.isInitialized){
-                    val name = nameEditText.text.toString()
-                    val password = passwordEditText.text.toString()
-                    val username = usernameEditText.text.toString()
+                    if(passwordEditText.isPasswordValid() && usernameEditText.isValid()){
+                        val name = nameEditText.text.toString()
+                        val password = passwordEditText.text.toString()
+                        val username = usernameEditText.text.toString()
 
-                    currentUser.name = name
-                    currentUser.username = username
+                        currentUser.name = name
+                        currentUser.username = username
 
-                    inputNamePasswordIntent(currentUser , password)
+                        inputNamePasswordIntent(currentUser , password)
+                    }
                 }
             }
         }

@@ -23,7 +23,7 @@
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_instagram_logo" />
 
-        <com.fdev.instagramclone.util.EmailEditText
+        <com.fdev.instagramclone.util.cutomview.EmailEditText
             android:textSize="16sp"
             android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"/>
 
 
-        <com.fdev.instagramclone.util.PasswordEditText
+        <com.fdev.instagramclone.util.cutomview.PasswordEditText
             android:textSize="16sp"
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"

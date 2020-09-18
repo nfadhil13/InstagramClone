@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.fdev.instagramclone.util.EmailEditText
+            <com.fdev.instagramclone.util.cutomview.EmailEditText
                 android:textSize="16sp"
                 android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
@@ -127,8 +127,6 @@
             <TextView
                 android:id="@+id/email_warn_tv"
                 android:textColor="@android:color/holo_red_light"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

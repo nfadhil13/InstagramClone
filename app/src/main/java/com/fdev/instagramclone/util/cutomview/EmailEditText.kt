@@ -1,4 +1,4 @@
-package com.fdev.instagramclone.util
+package com.fdev.instagramclone.util.cutomview
 
 import android.content.Context
 import android.text.Editable
@@ -9,6 +9,7 @@ import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import com.fdev.instagramclone.R
+import com.fdev.instagramclone.util.printLogD
 
 
 class EmailEditText
@@ -21,11 +22,6 @@ constructor(
 
     var emailEditTextCallback: EmailEditTextCallback? = null
 
-    companion object {
-        const val EMAIL_EDITTEXT_INPUT_EMPTY = 1
-        const val EMAIL_EDITTEXT_INVALID_EMAIL = 2
-        const val EMAIL_EDITTEXT_VALID = 3
-    }
 
 
     init {

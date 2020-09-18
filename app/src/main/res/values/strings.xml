@@ -43,5 +43,13 @@
     <string name="empty_field_warn">Please fill this field</string>
     <string name="invalid_email_field_warn">Please enter a valid email</string>
     <string name="password_empty_warn">Password may not be empty</string>
-    <string name="passwor_minimum_warn">Password minimum length is 8 character</string>
+    <string name="passwor_minimum_warn">Password minimum length is 8 character and maximum 20 character</string>
+    <string name="password_require_special_character"><![CDATA[Password required at least one special character(@#$%^&+=!)]]></string>
+    <string name="password_require_number">Password require at least one numer(0-9)</string>
+    <string name="password_letter_required">Required at least one upper case and one lower case letter</string>
+    <string name="username_minimum_length">Username minimum length is 5</string>
+    <string name="username_maximum_length">Username maximum length is 18</string>
+    <string name="username_only_lowercase">Only lower case allowed</string>
+    <string name="username_only_contain">Only lower case allowed</string>
+    <string name="username_no_blank">No space allowed</string>
 </resources>
