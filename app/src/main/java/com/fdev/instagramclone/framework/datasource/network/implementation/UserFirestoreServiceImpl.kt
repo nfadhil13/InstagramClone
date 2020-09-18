@@ -24,6 +24,7 @@ constructor(
         const val USER_COLLECTION = "users"
         const val USER_DEFAULT_PICTURE_URL = ""
         const val USER_ID_FIELD = "id"
+        const val USER_USERNAME_FIELD = "username"
         const val USER_EMAIL_FIELD = "email"
     }
 
@@ -122,7 +123,7 @@ constructor(
 
     override suspend fun checkIfUsernameExist(username : String): Boolean {
         return !firestore.collection(USER_COLLECTION)
-                .whereEqualTo(USER_ID_FIELD , username)
+                .whereEqualTo(USER_USERNAME_FIELD , username)
                 .get()
                 .await()
                 .isEmpty

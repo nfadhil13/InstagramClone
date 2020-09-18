@@ -74,9 +74,9 @@ constructor(
         val update = getCurrentViewStateOrNew()
         if (update.waitVerifiedViewState?.userVerfiedStatus != waitVerifiedViewState.userVerfiedStatus) {
             update.waitVerifiedViewState?.userVerfiedStatus = waitVerifiedViewState.userVerfiedStatus
-            setViewState(update)
             printLogD("AuthViewModel", "test ${getCurrentViewStateOrNew().waitVerifiedViewState?.verifiedUser?.email}")
         }
+        setViewState(update)
     }
 
     private fun setSignupViewState(signUpViewState: SignUpViewState?) {
@@ -141,10 +141,11 @@ constructor(
 
     fun setNewVerfiedUser(user: User, password: String) {
         val update = getCurrentViewStateOrNew()
-        update.waitVerifiedViewState = WaitVerifiedViewState(false, user, password)
+        update.waitVerifiedViewState = WaitVerifiedViewState(false, user,  password)
         printLogD("AuthViewModel", "sudah di update : ${update.waitVerifiedViewState?.verifiedUser?.email}")
         setViewState(update)
     }
+
 
     fun setsetEnterNamePasswordUser(user: User) {
         setEnterNamePasswordViewState(EnterNamePasswordViewState(user = user))
@@ -174,6 +175,10 @@ constructor(
 
             is AuthStateEvent.ForgetPassword -> {
                 authInteractor.resetPassword.sendResetPasswordbyEmail(stateEvent.email, stateEvent)
+            }
+
+            is AuthStateEvent.ResendVerficationEmail -> {
+                authInteractor.resendVerification.resendEmailVerification(stateEvent)
             }
 
             else -> {

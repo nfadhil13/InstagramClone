@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
@@ -19,13 +16,17 @@ import com.fdev.instagramclone.business.domain.state.UIComponentType
 import com.fdev.instagramclone.databinding.FragmentWaitingVerifiedBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.util.printLogD
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 class WaitVerifiedFragment : BaseAuthFragment() {
+
+    companion object {
+        const val START_TIME = 200 //200 SECOND
+        const val END_TIME = -1
+    }
 
     private var _binding: FragmentWaitingVerifiedBinding? = null
 
@@ -33,16 +34,20 @@ class WaitVerifiedFragment : BaseAuthFragment() {
         get() = _binding!!
 
 
+    private var timer: Int = START_TIME
+
+    private lateinit var timerJob: Job
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
 
-        val callback = object : OnBackPressedCallback(true){
+        val callback = object : OnBackPressedCallback(true) {
 
             override fun handleOnBackPressed() {
                 uiController.basicUIInteraction(
-                        "Your sing up will be cancled if you back" ,
-                        UIComponentType.AreYouSureDialog(object : AreYouSureCallback{
+                        "Your sing up will be cancled if you back",
+                        UIComponentType.AreYouSureDialog(object : AreYouSureCallback {
                             override fun proceed() {
                                 findNavController().navigate(R.id.action_waitVerifiedFragment_to_launcherFragment)
                             }
@@ -59,11 +64,11 @@ class WaitVerifiedFragment : BaseAuthFragment() {
 
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(this , callback)
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentWaitingVerifiedBinding.inflate(inflater,container,false)
+        _binding = FragmentWaitingVerifiedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -71,6 +76,36 @@ class WaitVerifiedFragment : BaseAuthFragment() {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
         initOnClickListener()
+        initTimer()
+    }
+
+    private fun initTimer() {
+        startTimer()
+    }
+
+    private fun startTimer() {
+        timerJob = CoroutineScope(Dispatchers.Default).launch {
+            timer = START_TIME
+            while (timer >= END_TIME) {
+                updateTimerUI()
+                delay(1000)
+                timer--
+            }
+        }
+
+        timerJob.start()
+    }
+
+    private suspend fun updateTimerUI() {
+        withContext(Main) {
+            printLogD("WaitVerifiedFragment" , "send timer $timer")
+            if(timer==-1){
+                binding.resendCodeTimer.setText("")
+            }else{
+                binding.resendCodeTimer.setText("(${timer.toString()})")
+            }
+
+        }
     }
 
     override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
@@ -82,19 +117,21 @@ class WaitVerifiedFragment : BaseAuthFragment() {
 
 
     private fun initObserver() {
-        viewModel.viewState.observe(viewLifecycleOwner, Observer {viewState->
-            viewState.waitVerifiedViewState?.let{waitVerifiedViewState ->
-                printLogD("WaitVerifiedFragment" , "user(${waitVerifiedViewState.verifiedUser?.email}) status isverified ${waitVerifiedViewState.userVerfiedStatus}")
-                waitVerifiedViewState.verifiedUser?.let{
+        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+            viewState.waitVerifiedViewState?.let { waitVerifiedViewState ->
+                printLogD("WaitVerifiedFragment", "user(${waitVerifiedViewState.verifiedUser?.email}) status isverified ${waitVerifiedViewState.userVerfiedStatus}")
+                waitVerifiedViewState.verifiedUser?.let {
                     changUI(it)
                 }
-                if(waitVerifiedViewState.userVerfiedStatus){
+                if (waitVerifiedViewState.userVerfiedStatus) {
                     navToInputNamePassword()
-                    waitVerifiedViewState.verifiedUser?.let{
+                    waitVerifiedViewState.verifiedUser?.let {
                         viewModel.setsetEnterNamePasswordUser(it)
                     }
                     viewModel.setNewVerfiedUserToNull()
                 }
+
+
             }
         })
 
@@ -112,34 +149,38 @@ class WaitVerifiedFragment : BaseAuthFragment() {
     private fun initOnClickListener() {
         binding.apply {
             btnConfirmationNext.setOnClickListener {
-                printLogD("WaitVerifiedFragment" , "checking user ${viewModel.viewState.value?.waitVerifiedViewState?.verifiedUser ?: "User is null"}")
+                printLogD("WaitVerifiedFragment", "checking user ${viewModel.viewState.value?.waitVerifiedViewState?.verifiedUser ?: "User is null"}")
                 val password =
-                        viewModel.viewState.value?.waitVerifiedViewState?.tempPassword ?: throw Exception("Unknown Error")
+                        viewModel.viewState.value?.waitVerifiedViewState?.tempPassword
+                                ?: throw Exception("Unknown Error")
                 viewModel.setStateEvent(AuthStateEvent.CheckUserVerifiedStateEvent(password))
             }
 
             resendCodeBtn.setOnClickListener {
-
+                if (timer > END_TIME) {
+                    uiController.basicUIInteraction(
+                            "You can resend verification email after 200second",
+                            UIComponentType.Toast()
+                    )
+                } else {
+                    viewModel.setStateEvent(AuthStateEvent.ResendVerficationEmail())
+                    startTimer()
+                }
             }
         }
     }
 
 
-
-    override fun onDetach() {
-        super.onDetach()
-        viewModel.viewState.value?.waitVerifiedViewState?.verifiedUser?.let{
-            AuthStateEvent.DeleteUserStateEvent(it)
-        }
-
-
-
-    }
-
-
-
     override fun onDestroyView() {
         super.onDestroyView()
+        if (::timerJob.isInitialized) {
+            if (timerJob.isActive) {
+                timerJob.cancel(CancellationException("Cancel"))
+            }
+        }
+        viewModel.viewState.value?.waitVerifiedViewState?.verifiedUser?.let {
+            AuthStateEvent.DeleteUserStateEvent(it)
+        }
         _binding = null
     }
 }

@@ -87,4 +87,12 @@ sealed class AuthStateEvent : StateEvent {
         override fun shouldDisplayProgressBar(): Boolean = true
     }
 
+    class ResendVerficationEmail() : AuthStateEvent(){
+        override fun errorInfo(): String = "Failed to sent email"
+
+        override fun eventName(): String =  "ResendVerficationEmail"
+
+        override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
 }

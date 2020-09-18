@@ -8,6 +8,7 @@ import com.fdev.instagramclone.business.domain.model.modelfactory.UserFactory
 import com.fdev.instagramclone.business.domain.state.*
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthViewState
 import com.fdev.instagramclone.framework.presentation.auth.state.EnterNamePasswordViewState
+import com.fdev.instagramclone.util.printLogD
 
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +35,7 @@ constructor(
 
         val networkCall = safeApiCall(IO) {
             val isUserNameExist = userNetworkDataSource.checkIfUsernameExist(user.username)
+            printLogD("InputNamePassword" , "${user.username} as username is exist $isUserNameExist")
             if (!isUserNameExist) {
                 user.bio = ""
                 user.isRegistered = true
