@@ -37,7 +37,7 @@
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:padding="15dp"
-            app:layout_constraintBottom_toTopOf="@id/email_edit_text"
+            app:layout_constraintBottom_toTopOf="@id/email_edit_text_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_logo">
@@ -101,21 +101,43 @@
 
         </LinearLayout>
 
-        <EditText
-            android:textSize="16sp"
-            android:id="@+id/email_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edit_text_box"
-            android:hint="@string/edit_text_sign_up_email_hint"
-            android:inputType="textEmailAddress"
-            android:padding="12dp"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/email_edit_text_layout"
             app:layout_constraintBottom_toTopOf="@+id/btn_signup_next"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_method_controller" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            app:layout_constraintTop_toBottomOf="@id/login_method_controller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.fdev.instagramclone.util.EmailEditText
+                android:textSize="16sp"
+                android:id="@+id/email_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_box"
+                android:hint="@string/edit_text_sign_up_email_hint"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                />
+
+            <TextView
+                android:id="@+id/email_warn_tv"
+                android:textColor="@android:color/holo_red_light"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
+
 
 
         <androidx.cardview.widget.CardView
@@ -130,7 +152,7 @@
             app:cardCornerRadius="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_edit_text">
+            app:layout_constraintTop_toBottomOf="@id/email_edit_text_layout">
 
             <TextView
                 android:id="@+id/btn_signup_next_tv"

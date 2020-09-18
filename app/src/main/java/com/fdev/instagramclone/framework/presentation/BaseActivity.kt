@@ -20,7 +20,7 @@ abstract class BaseActivity : AppCompatActivity(), UIController {
 
 
     private fun getRootView(): View {
-        val contentViewGroup = findViewById(android.R.id.content) as ViewGroup
+        val contentViewGroup: ViewGroup? = findViewById(android.R.id.content) as ViewGroup
 
         var rootView: View? = null
 
@@ -95,7 +95,7 @@ abstract class BaseActivity : AppCompatActivity(), UIController {
             }
 
             is UIComponentType.AreYouSureDialog -> {
-                response?.message?.let{msg->
+                response.message?.let{msg->
                     dialogInView = areYouSureDialog(
                             msg,
                             response.uiComponentType.callback,

@@ -61,7 +61,7 @@ constructor(
         ) {
             override suspend fun handleSuccess(resultObj: User): DataState<AuthViewState>? {
                 return if (!resultObj.isRegistered) {
-                    printLogD("SignUp", "user trying to signUp : ${resultObj?.email}")
+                    printLogD("SignUp", "user trying to signUp : ${resultObj.email}")
                     DataState.data(
                             response = Response(
                                     message = SIGNUP_SUCCESS,

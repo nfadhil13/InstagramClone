@@ -23,7 +23,7 @@
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_instagram_logo" />
 
-        <EditText
+        <com.fdev.instagramclone.util.EmailEditText
             android:textSize="16sp"
             android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
@@ -35,8 +35,17 @@
             android:inputType="textEmailAddress"
             android:padding="12dp" />
 
+        <TextView
+            android:id="@+id/email_warn_tv"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <EditText
+
+        <com.fdev.instagramclone.util.PasswordEditText
             android:textSize="16sp"
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
@@ -48,6 +57,15 @@
             android:hint="@string/password_edit_text_label"
             android:inputType="textPassword"
             android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/password_warn_tv"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
         <androidx.cardview.widget.CardView

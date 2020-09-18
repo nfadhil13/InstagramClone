@@ -40,4 +40,8 @@
     <string name="text_cancel">cancel</string>
     <string name="text_yes">yes</string>
     <string name="your_email_not_verfied_yet">Your email not verified yet</string>
+    <string name="empty_field_warn">Please fill this field</string>
+    <string name="invalid_email_field_warn">Please enter a valid email</string>
+    <string name="password_empty_warn">Password may not be empty</string>
+    <string name="passwor_minimum_warn">Password minimum length is 8 character</string>
 </resources>

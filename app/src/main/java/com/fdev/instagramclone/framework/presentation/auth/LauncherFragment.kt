@@ -13,8 +13,12 @@ import com.fdev.instagramclone.business.domain.state.StateMessage
 import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentLauncherBinding
 import com.fdev.instagramclone.databinding.FragmentSplashBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class LauncherFragment : BaseAuthFragment() {
 
     private  var _binding : FragmentLauncherBinding? = null

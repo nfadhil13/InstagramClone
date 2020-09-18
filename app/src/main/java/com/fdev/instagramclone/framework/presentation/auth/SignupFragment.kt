@@ -14,6 +14,8 @@ import com.fdev.instagramclone.business.domain.state.StateMessage
 import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentSignupBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
+import com.fdev.instagramclone.framework.presentation.changeTextcolor
+import com.fdev.instagramclone.util.EmailEditTextCallback
 import com.fdev.instagramclone.util.printLogD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -45,6 +47,7 @@ class SignupFragment : BaseAuthFragment() {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
         initClickListner()
+        initUI()
     }
 
     override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
@@ -52,6 +55,36 @@ class SignupFragment : BaseAuthFragment() {
                 stateMessage.response,
                 stateMessageCallback
         )
+    }
+
+    private fun initUI() {
+        binding.emailEditText.addOnInvalidCallBack(object : EmailEditTextCallback {
+            override fun onInvalidEmailInput() {
+                binding.emailWarnTv.let{
+                    it.text = getString(R.string.invalid_email_field_warn)
+                    it.changeTextcolor(R.color.warnColor)
+                }
+
+            }
+
+            override fun onEmptyInput() {
+                binding.emailWarnTv.let{
+                    it.text = getString(R.string.empty_field_warn)
+                    it.changeTextcolor(R.color.warnColor)
+                }
+            }
+
+
+            override fun onvalidInput() {
+                binding.emailWarnTv.let{
+                    binding.emailWarnTv.let{
+                        it.text = ""
+                        it.changeTextcolor(R.color.blackLine)
+                    }
+                }
+            }
+
+        })
     }
 
     private fun initObserver() {

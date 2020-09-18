@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
@@ -13,6 +11,8 @@ import com.fdev.instagramclone.business.domain.state.StateMessage
 import com.fdev.instagramclone.business.domain.state.StateMessageCallback
 import com.fdev.instagramclone.databinding.FragmentLoginBinding
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
+import com.fdev.instagramclone.framework.presentation.changeTextcolor
+import com.fdev.instagramclone.util.EmailEditTextCallback
 import com.fdev.instagramclone.util.printLogD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -41,8 +41,43 @@ class LoginFragment : BaseAuthFragment() {
         super.onViewCreated(view, savedInstanceState)
         initObserver()
         initClickListener()
+        initUI()
 
     }
+
+    private fun initUI() {
+        binding.emailEditText.addOnInvalidCallBack(object : EmailEditTextCallback{
+            override fun onInvalidEmailInput() {
+                binding.emailWarnTv.let{
+                    it.text = getString(R.string.invalid_email_field_warn)
+                    it.changeTextcolor(R.color.warnColor)
+                }
+
+            }
+
+            override fun onEmptyInput() {
+                binding.emailWarnTv.let{
+                    it.text = getString(R.string.empty_field_warn)
+                    it.changeTextcolor(R.color.warnColor)
+                }
+            }
+
+
+            override fun onvalidInput() {
+                binding.emailWarnTv.let{
+                    binding.emailWarnTv.let{
+                        it.text = ""
+                        it.changeTextcolor(R.color.blackLine)
+                    }
+                }
+            }
+
+        })
+
+        binding.passwordEditText.textView = binding.passwordWarnTv
+    }
+
+
 
     override fun handleStateMessage(stateMessage: StateMessage, stateMessageCallback: StateMessageCallback) {
         uiController.onResponseReceived(
@@ -88,7 +123,9 @@ class LoginFragment : BaseAuthFragment() {
 
             btnLogin.setOnClickListener {
                 // Do something to log in the user
-                loginIntent()
+                if(emailEditText.validateEmail() && passwordEditText.isPasswordValid()){
+                    loginIntent()
+                }
             }
         }
     }
