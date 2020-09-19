@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home_selector"
+        android:title="Home" />
+
+    <item
+        android:title="Search"
+        android:id="@+id/photoGridFragment"
+        android:icon="@drawable/search_selector"/>
+
+    <item
+        android:title="Add Photo"
+        android:id="@+id/addPhotoFragment"
+        android:icon="@drawable/add_photo_selector"/>
+
+    <item
+        android:title="Activity"
+        android:id="@+id/activityFragment"
+        android:icon="@drawable/activity_selector"/>
+
+    <item
+        android:title="Profile"
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile_selector"/>
+
+</menu>

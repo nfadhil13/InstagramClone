@@ -29,6 +29,16 @@ class AuthActivity : AppCompatActivity() {
 
     private  var _binding : ActivityAuthBinding? = null
 
+<<<<<<< Updated upstream
+=======
+    @Inject
+    lateinit var sessionManager : SessionManager
+
+
+    private val user = User(
+    )
+
+>>>>>>> Stashed changes
     private val binding
         get() = _binding!!
 
@@ -37,7 +47,30 @@ class AuthActivity : AppCompatActivity() {
         _binding = ActivityAuthBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+<<<<<<< Updated upstream
 
+=======
+        subsribeObserver()
+        sessionManager.login(user)
+
+
+    }
+
+
+    private fun subsribeObserver() {
+
+        sessionManager.currentUser.observe(this , androidx.lifecycle.Observer {
+            it?.let{
+                goToMainActivity()
+            }
+        })
+    }
+
+    private fun goToMainActivity() {
+        val intent = Intent(this , MainActivity::class.java)
+        startActivity(intent)
+        finish()
+>>>>>>> Stashed changes
     }
 
     override fun onDestroy() {
