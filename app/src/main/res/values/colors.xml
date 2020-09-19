@@ -7,5 +7,8 @@
 
     <color name="blurLine">#C6C6C6</color>
     <color name="blackLine">#000000</color>
+
     <color name="warnColor">@android:color/holo_red_light</color>
+
+>>>>>>> Stashed changes
 </resources>
