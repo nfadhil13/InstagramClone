@@ -43,19 +43,19 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        setUpNavigation()
+
         sessionManager.currentUser.observe(this, Observer {
         })
 
     }
 
-    private fun setUpNavigation() {
-        binding.bottomNav.itemIconTintList = null
-
-        val navController = findNavController(R.id.main_nav_host_fragment_container)
-        binding.bottomNav.setupWithNavController(navController)
-
-    }
+//    private fun setUpNavigation() {
+//        binding.bottomNav.itemIconTintList = null
+//
+//        val navController = findNavController(R.id.main_nav_host_fragment_container)
+//        binding.bottomNav.setupWithNavController(navController)
+//
+//    }
 
 
 

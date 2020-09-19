@@ -48,6 +48,7 @@ class AuthActivity : BaseActivity(){
         get() = _binding!!
 
 
+    private val testUser = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,7 @@ class AuthActivity : BaseActivity(){
         setContentView(view)
 
         subsribeObserver()
+        sessionManager.login(testUser)
 
 
     }

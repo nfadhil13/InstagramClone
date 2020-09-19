@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/test"
         android:text="THIS IS HOME FRAGMENT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

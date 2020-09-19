@@ -10,7 +10,6 @@ import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.business.domain.state.*
 import com.fdev.instagramclone.util.TodoCallback
-import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_waiting_verified.view.*
 
