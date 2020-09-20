@@ -112,16 +112,16 @@ class InputNamePasswordFragment() : BaseAuthFragment(){
 
                         currentUser.name = name
                         currentUser.username = username
-
-                        inputNamePasswordIntent(currentUser , password)
+                        currentUser.password = password
+                        inputNamePasswordIntent(currentUser)
                     }
                 }
             }
         }
     }
 
-    private fun inputNamePasswordIntent(user : User , password  :  String){
-        viewModel.setStateEvent(AuthStateEvent.InputNamePassword(user , password))
+    private fun inputNamePasswordIntent(user : User){
+        viewModel.setStateEvent(AuthStateEvent.InputNamePassword(user))
     }
 
     override fun onDestroyView() {

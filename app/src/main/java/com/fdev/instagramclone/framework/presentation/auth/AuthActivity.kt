@@ -19,6 +19,7 @@ import com.fdev.instagramclone.framework.presentation.BaseActivity
 import com.fdev.instagramclone.framework.presentation.UIController
 import com.fdev.instagramclone.framework.presentation.auth.state.AuthStateEvent
 import com.fdev.instagramclone.framework.presentation.main.MainActivity
+import com.fdev.instagramclone.framework.presentation.show
 import com.fdev.instagramclone.util.SessionManager
 import com.fdev.instagramclone.util.cLog
 import com.fdev.instagramclone.util.printLogD
@@ -48,7 +49,7 @@ class AuthActivity : BaseActivity(){
         get() = _binding!!
 
 
-    private val testUser = User()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,6 @@ class AuthActivity : BaseActivity(){
         setContentView(view)
 
         subsribeObserver()
-        sessionManager.login(testUser)
 
 
     }
@@ -87,13 +87,7 @@ class AuthActivity : BaseActivity(){
         binding.mainProgressbar.show(isDisplayed)
     }
 
-    fun ProgressBar.show(isDisplayed: Boolean){
-        if(isDisplayed){
-            visibility = View.VISIBLE
-        }else{
-            visibility = View.INVISIBLE
-        }
-    }
+
 
 
 

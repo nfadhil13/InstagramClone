@@ -11,8 +11,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentHomeBinding
 import com.fdev.instagramclone.databinding.FragmentProfileBinding
+import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
 
-class ProfileFragment : Fragment(){
+class ProfileFragment : BaseMainFragment(){
 
     private var _binding : FragmentProfileBinding? = null
 
@@ -23,6 +24,11 @@ class ProfileFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentProfileBinding.inflate(inflater , container , false)
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 

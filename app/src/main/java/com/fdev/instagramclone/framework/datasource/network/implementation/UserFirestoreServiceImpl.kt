@@ -83,6 +83,7 @@ constructor(
                 return User(
                         id = firebaseUser.uid,
                         username = "",
+                        password = "",
                         email = firebaseUser.email.toString(),
                         profileImage = USER_DEFAULT_PICTURE_URL,
                         followers = ArrayList(),
@@ -98,6 +99,7 @@ constructor(
             return User(
                     id = it.uid,
                     username = "",
+                    password = "",
                     email = it.email.toString(),
                     profileImage = USER_DEFAULT_PICTURE_URL,
                     followers = ArrayList(),

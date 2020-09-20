@@ -84,6 +84,7 @@ dependencies {
     implementation Dependencies.swipeRefreshLayout
     implementation Dependencies.recylerView
     implementation Dependencies.android_legacy_support
+    implementation Dependencies.viewpager2
 
     //Live data & ViewModel
     implementation Dependencies.liveData
@@ -118,5 +119,11 @@ dependencies {
 
     //Material dialog
     implementation Dependencies.material_dialog
+
+    //Room
+    implementation Dependencies.room_database
+    kapt AnnotationProcess.roomAnnotationProcess
+    implementation Dependencies.room_ktx
+
 
 }

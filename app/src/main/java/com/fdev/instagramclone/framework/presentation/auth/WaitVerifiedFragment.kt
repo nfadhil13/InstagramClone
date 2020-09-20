@@ -151,7 +151,7 @@ class WaitVerifiedFragment : BaseAuthFragment() {
             btnConfirmationNext.setOnClickListener {
                 printLogD("WaitVerifiedFragment", "checking user ${viewModel.viewState.value?.waitVerifiedViewState?.verifiedUser ?: "User is null"}")
                 val password =
-                        viewModel.viewState.value?.waitVerifiedViewState?.tempPassword
+                        viewModel.viewState.value?.waitVerifiedViewState?.verifiedUser?.password
                                 ?: throw Exception("Unknown Error")
                 viewModel.setStateEvent(AuthStateEvent.CheckUserVerifiedStateEvent(password))
             }

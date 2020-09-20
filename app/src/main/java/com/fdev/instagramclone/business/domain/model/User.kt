@@ -6,8 +6,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class User
 constructor(
-        var id: String?,
+        var id: String,
         var username: String,
+        var password: String,
         var email : String,
         var profileImage: String,
         var name: String = "",
@@ -19,6 +20,7 @@ constructor(
 
         constructor() : this(
                 "" ,
+                "",
                 "",
                 "",
                 "",

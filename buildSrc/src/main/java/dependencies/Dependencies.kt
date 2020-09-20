@@ -31,6 +31,9 @@ object Dependencies {
     val navigation_component_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
     val navigation_component_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
     val material_dialog = "com.afollestad.material-dialogs:core:${Versions.material_dialog}"
+    val viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
+    val room_database = "androidx.room:room-runtime:${Versions.room_version}"
+    val room_ktx = "androidx.room:room-ktx:${Versions.room_version}"
 
 
 

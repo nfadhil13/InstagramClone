@@ -19,6 +19,8 @@ data class AuthViewState(
 
         var signUpViewState: SignUpViewState? = null,
 
+        var syncAndGetLastUser: SyncAndGetLastUser? =null
+
 
         ) : Parcelable
 
@@ -26,8 +28,7 @@ data class AuthViewState(
 @Parcelize
 data class WaitVerifiedViewState(
         var userVerfiedStatus : Boolean = false,
-        var verifiedUser : User? = null,
-        var tempPassword: String? = null
+        var verifiedUser : User? = null
 ) : Parcelable {
 
 }
@@ -61,11 +62,18 @@ data class SignUpViewState(
         var email : String? = null,
         var mode : String? = null,
         var number : String? = null,
-        var succesUser : User? = null,
-        var tempPassword : String? = null
+        var succesUser : User? = null
 ) : Parcelable {
     companion object{
         const val SIGPUP_WITH_EMAIL = "EMAIL"
         const val SIGNUP_WITH_NUMBER = "NUMBER"
     }
 }
+
+@Parcelize
+data class SyncAndGetLastUser(
+        var lastUser : User? = null,
+        var isLogin : Boolean
+) : Parcelable
+
+

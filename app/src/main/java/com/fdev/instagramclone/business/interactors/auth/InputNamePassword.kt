@@ -1,8 +1,10 @@
 package com.fdev.instagramclone.business.interactors.auth
 
+import com.fdev.instagramclone.business.data.cache.abstraction.UserCacheDataSource
 import com.fdev.instagramclone.business.data.network.NetworkResponseHandler
 import com.fdev.instagramclone.business.data.network.abstraction.UserNetworkDataSource
 import com.fdev.instagramclone.business.data.util.safeApiCall
+import com.fdev.instagramclone.business.data.util.safeCacheCall
 import com.fdev.instagramclone.business.domain.model.User
 import com.fdev.instagramclone.business.domain.model.modelfactory.UserFactory
 import com.fdev.instagramclone.business.domain.state.*
@@ -18,7 +20,8 @@ import javax.inject.Inject
 class InputNamePassword @Inject
 constructor(
         private val userNetworkDataSource: UserNetworkDataSource,
-        private val userFactory: UserFactory
+        private val userFactory: UserFactory,
+        private val userCacheDataSource: UserCacheDataSource
 ) {
 
     companion object {
@@ -29,7 +32,6 @@ constructor(
 
     fun inputNamePassword(
             user: User,
-            password: String,
             stateEvent: StateEvent
     ): Flow<DataState<AuthViewState>?> = flow {
 
@@ -39,7 +41,7 @@ constructor(
             if (!isUserNameExist) {
                 user.bio = ""
                 user.isRegistered = true
-                userNetworkDataSource.updatePassword(password)
+                userNetworkDataSource.updatePassword(user.password)
                 userNetworkDataSource.addorUpdateUser(user)
             }
             user
@@ -76,6 +78,16 @@ constructor(
             }
 
         }.getResult()
+
+        result?.data?.inputNamePasswordViewState?.user?.let{
+            val result = safeCacheCall(IO){
+                printLogD("InputNamePassword" , "Add user to cache : $it")
+                userCacheDataSource.addUser(it , it.password)
+            }
+            printLogD("InputNamePassword" , "Result : $result")
+        }
+
+
 
         emit(result)
 

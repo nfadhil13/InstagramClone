@@ -1,5 +1,11 @@
 package com.fdev.instagramclone.util
 
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fdev.instagramclone.business.domain.model.User
@@ -7,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,8 +21,10 @@ import javax.inject.Singleton
 class SessionManager
 @Inject
 constructor(
-        private val firebaseAuth : FirebaseAuth
+        private val firebaseAuth: FirebaseAuth,
 ){
+
+
 
     private val TAG : String = "AppDebug"
 
@@ -26,7 +33,7 @@ constructor(
     val currentUser : LiveData<User?>
         get() = _currentUser
 
-    fun login(newUser : User){
+    fun login(newUser: User){
         printLogD("Session Manager", "Logging in : $newUser")
         setValue(newUser)
     }
@@ -37,11 +44,16 @@ constructor(
     }
 
 
-    private fun setValue(newUser : User?){
+    private fun setValue(newUser: User?){
         CoroutineScope(Main).launch{
             if(_currentUser.value != newUser){
                 _currentUser.value = newUser
             }
         }
     }
+
+
+
+
+
 }

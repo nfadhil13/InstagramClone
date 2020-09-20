@@ -41,14 +41,14 @@ constructor(
             if(user!=null){
                 printLogD("SignUp", "userfound : ${user.email} , ${user.bio}  , ${user.isRegistered}")
                 if(!user.isRegistered){
-                    tempPassword = user.bio
+                    tempPassword = user.password
                     userNetworkDataSource.loginWithEmail(email,tempPassword)
                     userNetworkDataSource.sendEmailVerfication()
                 }
             }else{
                 user = userNetworkDataSource.signupWithEmail(email,tempPassword)
                 user?.let{
-                    user.bio = tempPassword
+                    user.password = tempPassword
                     userNetworkDataSource.addorUpdateUser(it)
                 }
             }
@@ -69,8 +69,7 @@ constructor(
                             ),
                             data = AuthViewState(
                                     signUpViewState = SignUpViewState(
-                                            succesUser = resultObj,
-                                            tempPassword = tempPassword
+                                            succesUser = resultObj
                                     )),
                             stateEvent = stateEvent
                     )

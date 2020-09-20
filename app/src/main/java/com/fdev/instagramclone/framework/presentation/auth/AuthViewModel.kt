@@ -50,7 +50,17 @@ constructor(
             viewState.forgetPasswordViewState?.let { forgetPasswordViewState ->
                 setForgetPasswordViewState(forgetPasswordViewState)
             }
+
+            viewState.syncAndGetLastUser?.let{syncAndGetLastUser ->
+                setSyncAndGetLastUserViewState(syncAndGetLastUser)
+            }
         }
+    }
+
+    private fun setSyncAndGetLastUserViewState(syncAndGetLastUser: SyncAndGetLastUser) {
+        val update = getCurrentViewStateOrNew()
+        update.syncAndGetLastUser = syncAndGetLastUser
+        setViewState(update)
     }
 
     private fun setForgetPasswordViewState(forgetPasswordViewState: ForgetPasswordViewState) {
@@ -139,9 +149,9 @@ constructor(
         setViewState(update)
     }
 
-    fun setNewVerfiedUser(user: User, password: String) {
+    fun setNewVerfiedUser(user: User) {
         val update = getCurrentViewStateOrNew()
-        update.waitVerifiedViewState = WaitVerifiedViewState(false, user,  password)
+        update.waitVerifiedViewState = WaitVerifiedViewState(false, user)
         printLogD("AuthViewModel", "sudah di update : ${update.waitVerifiedViewState?.verifiedUser?.email}")
         setViewState(update)
     }
@@ -170,7 +180,7 @@ constructor(
             }
 
             is AuthStateEvent.InputNamePassword -> {
-                authInteractor.inputNamePassword.inputNamePassword(stateEvent.user, stateEvent.password, stateEvent)
+                authInteractor.inputNamePassword.inputNamePassword(stateEvent.user, stateEvent)
             }
 
             is AuthStateEvent.ForgetPassword -> {
@@ -179,6 +189,10 @@ constructor(
 
             is AuthStateEvent.ResendVerficationEmail -> {
                 authInteractor.resendVerification.resendEmailVerification(stateEvent)
+            }
+
+            is AuthStateEvent.SycnAndGetLasUser -> {
+                authInteractor.syncAndGetLastUser.sycnAndGetLastUser(stateEvent.isConnected , stateEvent)
             }
 
             else -> {

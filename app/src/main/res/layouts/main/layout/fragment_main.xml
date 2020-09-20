@@ -4,18 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:text="try"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/test_tv"
-        android:layout_width="match_parent"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/bottomnav_nav_host_containerr"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:id="@+id/nav_main_host_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -23,7 +15,8 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/test_tv" />
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 

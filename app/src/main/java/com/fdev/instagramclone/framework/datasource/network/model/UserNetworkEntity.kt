@@ -4,8 +4,9 @@ import com.fdev.instagramclone.business.domain.model.User
 
 data class UserNetworkEntity
 constructor(
-        var id: String? = null,
+        var id: String ,
         var username: String,
+        var password : String,
         var email : String,
         var profileImage: String,
         var bio: String = "",
@@ -17,6 +18,7 @@ constructor(
 
     constructor() : this(
             "" ,
+            "",
             "",
             "",
             "",

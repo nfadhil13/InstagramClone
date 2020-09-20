@@ -1,8 +1,10 @@
 package com.fdev.instagramclone.business.interactors.auth
 
+import com.fdev.instagramclone.business.data.cache.abstraction.UserCacheDataSource
 import com.fdev.instagramclone.business.data.network.NetworkResponseHandler
 import com.fdev.instagramclone.business.data.network.abstraction.UserNetworkDataSource
 import com.fdev.instagramclone.business.data.util.safeApiCall
+import com.fdev.instagramclone.business.data.util.safeCacheCall
 import com.fdev.instagramclone.business.data.util.safeFirebaseAuthCall
 import com.fdev.instagramclone.business.domain.model.User
 import com.fdev.instagramclone.business.domain.model.modelfactory.UserFactory
@@ -19,7 +21,8 @@ class LogIn
 @Inject
 constructor(
         private val userNetworkDataSource: UserNetworkDataSource,
-        private val userFactory: UserFactory
+        private val userFactory: UserFactory,
+        private val userCacheDataSource: UserCacheDataSource
 ) {
 
     companion object {
@@ -39,6 +42,7 @@ constructor(
             if(user!=null){
                 if(user.isRegistered){
                     user = userNetworkDataSource.loginWithEmail(email, password)
+                    user?.password = password
                 }
             }else{
                 user = userFactory.createUnRegisteredUser()
@@ -80,7 +84,18 @@ constructor(
 
         }.getResult()
 
+        networkResponse?.data?.loginViewState?.succesUser?.let{
+            safeCacheCall(IO){
+                printLogD("Login" , "Add user to cache : $it")
+                userCacheDataSource.addUser(it , it.password)
+            }
+        }
+
         emit(networkResponse)
+
+
+
+
 
 
     }

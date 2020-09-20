@@ -94,11 +94,12 @@ class SignupFragment : BaseAuthFragment() {
                     binding.emailEditText.setText(it)
                 }
 
-                if(signUpViewState.succesUser != null && signUpViewState.tempPassword != null){
-                    viewModel.setNewVerfiedUser(signUpViewState.succesUser!!, signUpViewState.tempPassword!!)
+                signUpViewState.succesUser?.let{
+                    viewModel.setNewVerfiedUser(it)
                     viewModel.setSignUpViewStatetoNull()
                     navToWaitVerified()
                 }
+
             }
 
         })

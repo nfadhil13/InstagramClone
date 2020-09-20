@@ -1,6 +1,8 @@
 package dependencies
 
 object Versions {
+    val room_version = "2.2.5"
+    val viewpager2 = "1.0.0"
     val material_dialog = "3.2.1"
     val hilt_viewmodel = "1.0.0-alpha01"
     val legacy_support_version = "1.0.0"

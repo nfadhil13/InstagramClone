@@ -70,7 +70,7 @@ sealed class AuthStateEvent : StateEvent {
 
     }
 
-    class InputNamePassword(var user : User ,var  password: String) : AuthStateEvent(){
+    class InputNamePassword(var user : User ) : AuthStateEvent(){
         override fun errorInfo(): String = "Error to input"
 
         override fun eventName(): String =  "InputNamePassword"
@@ -93,6 +93,14 @@ sealed class AuthStateEvent : StateEvent {
         override fun eventName(): String =  "ResendVerficationEmail"
 
         override fun shouldDisplayProgressBar(): Boolean = true
+    }
+
+    class SycnAndGetLasUser(val isConnected : Boolean) : AuthStateEvent(){
+        override fun errorInfo(): String = "Failed to sycn"
+
+        override fun eventName(): String =  "SycnAndGetLasUser"
+
+        override fun shouldDisplayProgressBar(): Boolean = false
     }
 
 }

@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentHomeBinding
-import com.fdev.instagramclone.framework.presentation.main.MainFragment
+import com.fdev.instagramclone.framework.presentation.OnFragmentChangedListener
+import com.fdev.instagramclone.framework.presentation.UIController
+import com.fdev.instagramclone.framework.presentation.auth.AuthActivity
+import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
+import com.fdev.instagramclone.framework.presentation.main.MainActivity
 import com.fdev.instagramclone.util.TodoCallback
+import com.fdev.instagramclone.util.printLogD
+import java.lang.ClassCastException
 
-class HomeFragment  : Fragment() {
+class HomeFragment  : BaseMainFragment() {
 
     private var _binding : FragmentHomeBinding? = null
 
@@ -23,7 +26,6 @@ class HomeFragment  : Fragment() {
 
 
 
-    lateinit var todoCallback: TodoCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentHomeBinding.inflate(inflater , container , false)
@@ -32,19 +34,17 @@ class HomeFragment  : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initCallBack()
-        binding.test.setOnClickListener {
-            todoCallback.execute()
-        }
+
     }
 
-    private fun initCallBack() {
-        todoCallback = (pa
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
-    private fun callBack(){
-        todoCallback.execute()
-    }
+
+
+
 
 
 

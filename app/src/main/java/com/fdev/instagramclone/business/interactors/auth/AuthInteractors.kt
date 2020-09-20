@@ -8,5 +8,6 @@ class AuthInteractors @Inject constructor(
         val checkIsUserVerifiedInteractor: CheckIsUserVerified,
         val inputNamePassword: InputNamePassword,
         val resetPassword: ResetPassword,
-        val resendVerification: ResendVerification
+        val resendVerification: ResendVerification,
+        val syncAndGetLastUser: SyncAndGetLastUser
 )
