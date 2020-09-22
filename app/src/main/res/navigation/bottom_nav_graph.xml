@@ -22,6 +22,6 @@
         android:label="ActivityFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.fdev.instagramclone.framework.presentation.main.account.ProfileContainerFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.main.account.ProfileFragment"
         android:label="ProfileFragment" />
 </navigation>

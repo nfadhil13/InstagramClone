@@ -125,5 +125,11 @@ dependencies {
     kapt AnnotationProcess.roomAnnotationProcess
     implementation Dependencies.room_ktx
 
+    //Circle image view
+    implementation Dependencies.circle_imageview
+
+    //Glide
+    implementation Dependencies.glide
+
 
 }

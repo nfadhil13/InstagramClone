@@ -1,6 +1,8 @@
 package dependencies
 
 object Versions {
+    val glide = "4.11.0"
+    val circle_imageview = "3.1.0"
     val room_version = "2.2.5"
     val viewpager2 = "1.0.0"
     val material_dialog = "3.2.1"
@@ -15,7 +17,7 @@ object Versions {
     val retorfit2 = "2.9.0"
     val ktx = "1.3.1"
     val swipeRefreshLayout = "1.1.0"
-    val google_material = "1.0.0"
+    val google_material = "1.2.1"
     val constraintLayout = "2.0.1"
     val appCompat = "1.2.0"
     val gradle = "4.0.1"

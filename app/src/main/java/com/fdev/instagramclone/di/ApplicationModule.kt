@@ -1,8 +1,13 @@
 package com.fdev.instagramclone.di
 
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.RequestOptions
+import com.fdev.instagramclone.R
 import com.fdev.instagramclone.framework.datasource.cache.database.Database
 import com.fdev.instagramclone.framework.datasource.cache.database.UserDao
 import com.fdev.instagramclone.util.SessionManager
@@ -47,6 +52,20 @@ object ApplicationModule {
                 .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideRequestOptions() : RequestOptions {
+        return RequestOptions
+                .placeholderOf(R.drawable.home_onclick)
+                .error(R.drawable.add_photo_onclcik)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGlideInstance(@ApplicationContext context : Context, requestOptions: RequestOptions) : RequestManager {
+        return Glide.with(context)
+                .applyDefaultRequestOptions(requestOptions)
+    }
 
     @Provides
     fun provideUserDao(database: Database) : UserDao{

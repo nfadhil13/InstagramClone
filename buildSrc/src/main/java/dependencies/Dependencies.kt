@@ -5,7 +5,8 @@ package dependencies
 
 object Dependencies {
 
-
+    val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    val circle_imageview = "de.hdodenhof:circleimageview:${Versions.circle_imageview}"
     val recylerView = "androidx.recyclerview:recyclerview:${Versions.recyclerviewVersion}"
     val leak_canary = "com.squareup.leakcanary:leakcanary-android:${Versions.leak_canary}"
     val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
