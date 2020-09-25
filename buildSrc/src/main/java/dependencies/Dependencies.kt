@@ -5,6 +5,7 @@ package dependencies
 
 object Dependencies {
 
+    val ViewBindingPropertyDelegate = "com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${Versions.ViewBindingPropertyDelegate}"
     val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     val circle_imageview = "de.hdodenhof:circleimageview:${Versions.circle_imageview}"
     val recylerView = "androidx.recyclerview:recyclerview:${Versions.recyclerviewVersion}"

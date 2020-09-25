@@ -131,5 +131,8 @@ dependencies {
     //Glide
     implementation Dependencies.glide
 
+    //View binding 3rd party , to avoid memory leak
+    implementation Dependencies.ViewBindingPropertyDelegate
+
 
 }

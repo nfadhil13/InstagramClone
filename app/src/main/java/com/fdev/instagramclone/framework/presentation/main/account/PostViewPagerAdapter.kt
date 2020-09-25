@@ -2,18 +2,22 @@ package com.fdev.instagramclone.framework.presentation.main.account
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
+import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.ViewpagerPostItemBinding
+import com.fdev.instagramclone.util.printLogD
+import kotlinx.android.synthetic.main.viewpager_post_item.view.*
 
 class PostViewPagerAdapter(
-        context: Context,
         var requestManager: RequestManager,
-        var interaction: PhotoGridAdapter.Interaction,
+        interaction: PhotoGridAdapter.Interaction,
         var onNextPageInteraction: Interaction
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
 
     companion object{
@@ -29,6 +33,7 @@ class PostViewPagerAdapter(
 
 
     private var taggedAdapter: PhotoGridAdapter
+
 
     init {
 
@@ -63,11 +68,16 @@ class PostViewPagerAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ViewpagerPostItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,false
+//        val binding = ViewpagerPostItemBinding.inflate(
+//                LayoutInflater.from(parent.context),
+//                parent,false
+//        )
+        val view = LayoutInflater.from(parent.context).inflate(
+                R.layout.viewpager_post_item,
+                parent,
+                false
         )
-        return ViewPagerAdapterViewHolder(binding , onNextPageInteraction)
+        return ViewPagerAdapterViewHolder(view , onNextPageInteraction)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -102,18 +112,19 @@ class PostViewPagerAdapter(
 
     class ViewPagerAdapterViewHolder
     constructor(
-            var binding : ViewpagerPostItemBinding,
-            var interaction: Interaction
-    ) : RecyclerView.ViewHolder(binding.root) {
+            var itemView : View,
+            var interaction: Interaction,
+    ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item : PhotoGridAdapter) = with(binding) {
-            initRecylerView(binding.postRecylerview , item)
+        fun bind(item : PhotoGridAdapter) = with(itemView) {
+            initRecylerView(itemView.post_recylerview , item)
         }
 
         private fun initRecylerView(recyclerView: RecyclerView, recyclerViewAdapter : PhotoGridAdapter){
             recyclerView.apply{
-                layoutManager = GridLayoutManager(context , 3)
-                isNestedScrollingEnabled = false
+                val gridLayout = GridLayoutManager( context, 3)
+                layoutManager = gridLayout
+                setHasFixedSize(true)
                 addOnScrollListener(object : RecyclerView.OnScrollListener(){
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
@@ -125,6 +136,14 @@ class PostViewPagerAdapter(
                     }
                 })
 
+                addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        interaction.afterScrolled(gridLayout.findFirstCompletelyVisibleItemPosition() == 0)
+                    }
+                })
+
+
                 adapter = recyclerViewAdapter
             }
         }
@@ -133,6 +152,8 @@ class PostViewPagerAdapter(
 
     interface Interaction {
         fun onNextPage(type : Int)
+        fun afterScrolled(isFirstItem : Boolean)
     }
+
 
 }

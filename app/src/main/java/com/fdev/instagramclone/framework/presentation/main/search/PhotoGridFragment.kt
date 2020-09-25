@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentPhotoGridBinding
 import com.fdev.instagramclone.databinding.FragmentProfileBinding
 import com.fdev.instagramclone.framework.presentation.OnFragmentChangedListener
@@ -12,21 +14,11 @@ import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
 import com.fdev.instagramclone.framework.presentation.main.MainActivity
 import java.lang.ClassCastException
 
-class PhotoGridFragment  : BaseMainFragment(){
+class PhotoGridFragment  : BaseMainFragment(R.layout.fragment_photo_grid){
 
-    private var _binding : FragmentPhotoGridBinding? = null
-
-    private val binding
-        get() = _binding!!
+    private val binding : FragmentPhotoGridBinding by viewBinding()
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentPhotoGridBinding.inflate(inflater , container , false)
-        setOnFragmentChangedListener()
-        onFragmentChangedListener.fragmentChanged(this)
-        return binding.root
-    }
 
 
 

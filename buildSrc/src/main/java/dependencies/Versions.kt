@@ -1,6 +1,7 @@
 package dependencies
 
 object Versions {
+    val ViewBindingPropertyDelegate = "1.2.1"
     val glide = "4.11.0"
     val circle_imageview = "3.1.0"
     val room_version = "2.2.5"
@@ -17,7 +18,7 @@ object Versions {
     val retorfit2 = "2.9.0"
     val ktx = "1.3.1"
     val swipeRefreshLayout = "1.1.0"
-    val google_material = "1.2.1"
+    val google_material = "1.2.0-alpha06"
     val constraintLayout = "2.0.1"
     val appCompat = "1.2.0"
     val gradle = "4.0.1"
@@ -31,5 +32,5 @@ object Versions {
     val kotlinCoroutine = "1.3.9"
     val lifecycleVersion = "2.2.0"
     val recyclerviewVersion = "1.1.0"
-    val nav_version = "2.3.0"
+    val nav_version = "2.3.0-alpha05"
 }

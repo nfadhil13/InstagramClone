@@ -1,8 +1,9 @@
 package com.fdev.instagramclone.framework.presentation.main.chat
 
 import androidx.fragment.app.Fragment
+import com.fdev.instagramclone.R
 import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
 
-class ChatDetailFragment : BaseMainFragment(){
+class ChatDetailFragment : BaseMainFragment(R.layout.fragment_chat_detail){
 
 }

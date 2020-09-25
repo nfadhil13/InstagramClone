@@ -4,27 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentChatListBinding
 import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
 import com.fdev.instagramclone.util.printLogD
 
-class ChatListFragment : BaseMainFragment(){
+class ChatListFragment : BaseMainFragment(R.layout.fragment_chat_list){
 
-    private var _binding : FragmentChatListBinding? = null
-
-    private val binding
-        get() = _binding!!
+    private val binding : FragmentChatListBinding by viewBinding()
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentChatListBinding.inflate(inflater ,container , false)
-            printLogD("Chatlist" , "onCreateView")
-        return binding.root
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
 }

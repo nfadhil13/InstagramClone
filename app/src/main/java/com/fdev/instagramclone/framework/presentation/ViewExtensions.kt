@@ -5,6 +5,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.fdev.instagramclone.R
 
 fun TextView.changeTextcolor(
@@ -21,4 +22,19 @@ fun ProgressBar.show(isDisplayed: Boolean){
     }else{
         visibility = View.INVISIBLE
     }
+}
+
+fun NavController.popBackStackAllInstances(destination : Int , inclusive : Boolean) : Boolean{
+
+    var popped : Boolean
+
+    while(true){
+        popped = popBackStack(destination , inclusive)
+        if(!popped){
+            break
+        }
+
+    }
+    return popped
+
 }

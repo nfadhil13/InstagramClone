@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentHomeBinding
 import com.fdev.instagramclone.framework.presentation.OnFragmentChangedListener
@@ -17,30 +18,14 @@ import com.fdev.instagramclone.util.TodoCallback
 import com.fdev.instagramclone.util.printLogD
 import java.lang.ClassCastException
 
-class HomeFragment  : BaseMainFragment() {
+class HomeFragment  : BaseMainFragment(R.layout.fragment_home) {
 
-    private var _binding : FragmentHomeBinding? = null
-
-    private val binding
-        get() = _binding!!
+    private val binding : FragmentHomeBinding by viewBinding()
 
 
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentHomeBinding.inflate(inflater , container , false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
 
 

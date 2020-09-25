@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.business.domain.model.User
 import com.fdev.instagramclone.business.domain.state.*
@@ -24,13 +25,11 @@ import kotlinx.coroutines.FlowPreview
 class InputNamePasswordFragment() : BaseAuthFragment(){
 
 
-    private var _binding: FragmentInputNamePasswordBinding? = null
+    private val binding: FragmentInputNamePasswordBinding by viewBinding()
 
 
     private lateinit var currentUser : User
 
-    private val binding
-        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +60,6 @@ class InputNamePasswordFragment() : BaseAuthFragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentInputNamePasswordBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -126,7 +124,6 @@ class InputNamePasswordFragment() : BaseAuthFragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 
 }

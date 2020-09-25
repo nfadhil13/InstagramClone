@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    
+<LinearLayout
+    android:gravity="center"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="140dp"
+    android:layout_height="140dp">
+
     <ImageView
+        android:src="@drawable/a8537242060942d962a539f2b0c9f34e"
         android:id="@+id/post_image"
-        android:layout_margin="1dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-</FrameLayout>
+        android:layout_width="139dp"
+        android:layout_height="139dp"
+        android:layout_margin="1dp" />
+
+
+
+
+
+
+
+</LinearLayout>

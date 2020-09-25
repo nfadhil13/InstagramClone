@@ -14,11 +14,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="3dp"
+            android:padding="12dp"
             android:paddingLeft="0dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
             android:paddingRight="3dp"
-            android:padding="12dp">
+            android:paddingBottom="3dp">
 
             <ImageView
                 android:id="@+id/btn_back"
@@ -57,14 +57,16 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <ScrollView
-            android:fillViewport="true"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -261,10 +263,10 @@
 
 
                     <com.google.android.material.tabs.TabLayout
-                        app:tabIconTint="@color/blackLine"
                         android:id="@+id/content_tab_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:tabIconTint="@color/blackLine" />
 
 
                 </LinearLayout>
@@ -282,11 +284,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
+    </ScrollView>
 
 
 </LinearLayout>

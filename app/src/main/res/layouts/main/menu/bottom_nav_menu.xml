@@ -4,25 +4,30 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/home_selector"
+        android:menuCategory="secondary"
         android:title="Home" />
 
     <item
         android:title="Search"
+        android:menuCategory="secondary"
         android:id="@+id/photoGridFragment"
         android:icon="@drawable/search_selector"/>
 
     <item
         android:title="Add Photo"
+        android:menuCategory="secondary"
         android:id="@+id/addPhotoFragment"
         android:icon="@drawable/add_photo_selector"/>
 
     <item
         android:title="Activity"
+        android:menuCategory="secondary"
         android:id="@+id/activityFragment"
         android:icon="@drawable/activity_selector"/>
 
     <item
         android:title="Profile"
+        android:menuCategory="secondary"
         android:id="@+id/profileFragment"
         android:icon="@drawable/profile_selector"/>
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fdev.instagramclone.R
@@ -34,14 +35,14 @@ class MainFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpBottomNavigation(view)
+        setUpBottomNavigation()
 
 
 
     }
 
 
-    private fun setUpBottomNavigation(view : View) {
+    private fun setUpBottomNavigation() {
         binding.bottomNav.itemIconTintList = null
         val bottomNavFragmentContainer = childFragmentManager.findFragmentById(R.id.bottomnav_nav_host_containerr) as? NavHostFragment
         val navController = bottomNavFragmentContainer?.navController
