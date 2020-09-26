@@ -34,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:text="fadhiiiln"
                 android:textColor="@color/blackLine"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -58,235 +57,23 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_main_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
 
-                <LinearLayout
-                    android:id="@+id/top_linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toTopOf="@id/content_viewpager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="12dp"
-                        android:paddingTop="20dp"
-                        android:paddingEnd="0dp">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_circleimageview"
-                            android:layout_width="84dp"
-                            android:layout_height="84dp"
-                            android:src="@drawable/profile_pic_ondile"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.63" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="25dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/profile_circleimageview"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <LinearLayout
-                                android:id="@+id/posts_layout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@id/followers_layout"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:id="@+id/posts_label"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="0"
-                                    android:textColor="@color/blackLine"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto"
-                                    android:text="@string/posts_label"
-                                    android:textColor="@color/blackLine"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/followers_layout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:id="@+id/followers_tv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:text="0"
-                                    android:textColor="@color/blackLine"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto"
-                                    android:text="@string/followers_label"
-                                    android:textColor="@color/blackLine"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
 
 
-                            <LinearLayout
-                                android:id="@+id/following_layout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/followers_layout"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:id="@+id/following_tv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:text="0"
-                                    android:textColor="@color/blackLine"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto"
-                                    android:text="@string/following_label"
-                                    android:textColor="@color/blackLine"
-                                    android:textSize="12sp" />
-
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:id="@+id/fullname_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:maxLines="1"
-                        android:paddingStart="12dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="0dp"
-                        android:text="naufal fadhil"
-                        android:textColor="@color/blackLine"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-                    <TextView
-                        android:id="@+id/bio_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:maxLines="5"
-                        android:paddingStart="12dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="0dp"
-                        android:text="FCM_Management \nBuisness Requires : +628132252896"
-                        android:textColor="@color/blackLine"
-                        android:textSize="14sp" />
-
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btn_login"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="12dp"
-                        app:cardCornerRadius="5dp"
-                        app:strokeColor="@android:color/darker_gray"
-                        app:strokeWidth="0.2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:fontFamily="@font/roboto_medium"
-                            android:padding="5dp"
-                            android:text="@string/edit_profile_label"
-                            android:textColor="@color/blackLine"
-                            android:textSize="12sp" />
-
-                    </androidx.cardview.widget.CardView>
-
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/content_tab_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:tabIconTint="@color/blackLine" />
-
-
-                </LinearLayout>
-
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/content_viewpager"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/top_linearLayout" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </ScrollView>
 
 
 </LinearLayout>

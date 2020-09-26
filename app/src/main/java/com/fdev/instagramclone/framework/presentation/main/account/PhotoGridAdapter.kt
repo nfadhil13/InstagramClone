@@ -1,11 +1,9 @@
 package com.fdev.instagramclone.framework.presentation.main.account
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.fdev.instagramclone.databinding.PhotoGridItemContainerBinding
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
@@ -15,9 +13,11 @@ import com.fdev.instagramclone.util.printLogD
 class PhotoGridAdapter(
         private val requestManager: RequestManager,
         private val interaction: Interaction? = null,
-        private val type : AdapterType
+        private val type : AdapterType,
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var onUpdate : OnUpdate?= null
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<String>() {
 
@@ -30,8 +30,14 @@ class PhotoGridAdapter(
         }
 
     }
-    private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
+    private val differ = AsyncListDiffer(
+                    PhotoGridChangeCallBack(),
+                    AsyncDifferConfig.Builder(DIFF_CALLBACK).build()
+            )
 
+    init{
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = PhotoGridItemContainerBinding.inflate(
@@ -39,23 +45,30 @@ class PhotoGridAdapter(
                         parent.context
                 ),parent , false
         )
+
         return PhotoGridViewHolder(itemBinding , interaction , requestManager , type)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is PhotoGridViewHolder-> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(differ.currentList[position])
             }
         }
     }
+
+
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
 
     fun submitList(list: List<String>) {
-        differ.submitList(list)
+        val callback = Runnable {
+            printLogD("PhotoGridAdapter" , "callback : ${differ.currentList.size}")
+            onUpdate?.onUpdate()
+        }
+        differ.submitList(list.toMutableList() , callback)
     }
 
     //To preload the image and cache it
@@ -69,6 +82,11 @@ class PhotoGridAdapter(
                     .preload()
         }
     }
+
+    fun setOnUpdate(newOnUpdate : OnUpdate){
+      onUpdate   = newOnUpdate
+    }
+
 
     class PhotoGridViewHolder
     constructor(
@@ -93,6 +111,35 @@ class PhotoGridAdapter(
 
     interface Interaction {
         fun onItemSelected(position: Int, item: String, type : AdapterType)
+    }
+
+    interface OnUpdate {
+        fun onUpdate()
+    }
+
+
+    internal inner class PhotoGridChangeCallBack(
+    ) : ListUpdateCallback {
+
+        override fun onChanged(position: Int, count: Int, payload: Any?) {
+            printLogD("PhotoGridChangeCallBack", "onChanged")
+            this@PhotoGridAdapter.notifyItemRangeChanged(position, count, payload)
+        }
+
+        override fun onInserted(position: Int, count: Int) {
+            printLogD("PhotoGridChangeCallBack", "OnInserted")
+            this@PhotoGridAdapter.notifyItemRangeChanged(position, count)
+        }
+
+        override fun onMoved(fromPosition: Int, toPosition: Int) {
+            printLogD("PhotoGridChangeCallBack", "onMoved")
+            this@PhotoGridAdapter.notifyDataSetChanged()
+        }
+
+        override fun onRemoved(position: Int, count: Int) {
+            printLogD("PhotoGridChangeCallBack", "onRemoved")
+            this@PhotoGridAdapter.notifyDataSetChanged()
+        }
     }
 }
 

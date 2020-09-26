@@ -4,6 +4,8 @@ data class Post(
 
         val postID : String ,
 
+        val postFileURL : String,
+
         val likes : List<String>,
 
         val comments : List<String>,

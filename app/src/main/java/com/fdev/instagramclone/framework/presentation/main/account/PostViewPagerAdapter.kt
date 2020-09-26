@@ -1,20 +1,21 @@
 package com.fdev.instagramclone.framework.presentation.main.account
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.fdev.instagramclone.R
-import com.fdev.instagramclone.databinding.ViewpagerPostItemBinding
+import com.fdev.instagramclone.util.cutomview.NestedRecyclerGridLayoutManager
 import com.fdev.instagramclone.util.printLogD
 import kotlinx.android.synthetic.main.viewpager_post_item.view.*
 
 class PostViewPagerAdapter(
         var requestManager: RequestManager,
         interaction: PhotoGridAdapter.Interaction,
-        var onNextPageInteraction: Interaction
+        var viewPagerInteraction: Interaction,
+        var onUpdate : PhotoGridAdapter.OnUpdate? = null,
+        private val viewPool: RecyclerView.RecycledViewPool
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -25,10 +26,14 @@ class PostViewPagerAdapter(
         const val TAGGED = 2
     }
 
+
+
     private var adapterList = ArrayList<PhotoGridAdapter>()
 
 
     private var postAdapter: PhotoGridAdapter
+
+    private var recyclerViewList = ArrayList<RecyclerView>()
 
 
 
@@ -41,7 +46,10 @@ class PostViewPagerAdapter(
                 requestManager,
                 interaction,
                 AdapterType.Post
+
         )
+
+
 
 
 
@@ -77,13 +85,14 @@ class PostViewPagerAdapter(
                 parent,
                 false
         )
-        return ViewPagerAdapterViewHolder(view , onNextPageInteraction)
+        return ViewPagerAdapterViewHolder(view , viewPagerInteraction)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ViewPagerAdapterViewHolder -> {
-                holder.bind(adapterList[position])
+                holder.bind(adapterList[position] , viewPool)
+                recyclerViewList.add(position , holder.getView())
             }
         }
     }
@@ -108,41 +117,51 @@ class PostViewPagerAdapter(
         postAdapter.submitList(list)
     }
 
+    fun getRecyclerView(index : Int) : RecyclerView{
+        return recyclerViewList[index]
+    }
+
+    fun addOnUpdate(onUpdate: PhotoGridAdapter.OnUpdate){
+        postAdapter.setOnUpdate(onUpdate)
+        taggedAdapter.setOnUpdate(onUpdate)
+    }
+
 
 
     class ViewPagerAdapterViewHolder
     constructor(
-            var itemView : View,
+            itemView : View,
             var interaction: Interaction,
+
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item : PhotoGridAdapter) = with(itemView) {
-            initRecylerView(itemView.post_recylerview , item)
+        fun bind(item : PhotoGridAdapter , viewPool: RecyclerView.RecycledViewPool) = with(itemView) {
+            initRecylerView(itemView.post_recylerview , item , viewPool )
         }
 
-        private fun initRecylerView(recyclerView: RecyclerView, recyclerViewAdapter : PhotoGridAdapter){
+        fun getView() : RecyclerView{
+            return itemView.post_recylerview
+        }
+
+        private fun initRecylerView(recyclerView: RecyclerView, recyclerViewAdapter : PhotoGridAdapter,
+                                    viewPool: RecyclerView.RecycledViewPool){
             recyclerView.apply{
-                val gridLayout = GridLayoutManager( context, 3)
+                setRecycledViewPool(viewPool)
+                val gridLayout = GridLayoutManager(context , 3)
                 layoutManager = gridLayout
                 setHasFixedSize(true)
-                addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                this.addOnScrollListener(object : RecyclerView.OnScrollListener(){
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
-                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                        val layoutManager = recyclerView.layoutManager as GridLayoutManager
                         val lastPosition = layoutManager.findLastVisibleItemPosition()
+                        printLogD("Adapter" , "$lastPosition : ${recyclerViewAdapter.itemCount.minus(1)} in $adapterPosition")
                         if(lastPosition == recyclerViewAdapter.itemCount.minus(1)){
                             interaction.onNextPage(adapterPosition)
                         }
                     }
-                })
 
-                addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-                        interaction.afterScrolled(gridLayout.findFirstCompletelyVisibleItemPosition() == 0)
-                    }
                 })
-
 
                 adapter = recyclerViewAdapter
             }
