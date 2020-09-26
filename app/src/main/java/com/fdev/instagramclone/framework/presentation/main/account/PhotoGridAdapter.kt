@@ -21,6 +21,10 @@ class PhotoGridAdapter(
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<String>() {
 
+        override fun getChangePayload(oldItem: String, newItem: String): Any? {
+            return super.getChangePayload(oldItem, newItem)
+        }
+
         override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
@@ -30,7 +34,7 @@ class PhotoGridAdapter(
         }
 
     }
-    private val differ = AsyncListDiffer(
+    private val differ =  AsyncListDiffer(
                     PhotoGridChangeCallBack(),
                     AsyncDifferConfig.Builder(DIFF_CALLBACK).build()
             )
@@ -38,6 +42,8 @@ class PhotoGridAdapter(
     init{
 
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = PhotoGridItemContainerBinding.inflate(
@@ -64,11 +70,7 @@ class PhotoGridAdapter(
     }
 
     fun submitList(list: List<String>) {
-        val callback = Runnable {
-            printLogD("PhotoGridAdapter" , "callback : ${differ.currentList.size}")
-            onUpdate?.onUpdate()
-        }
-        differ.submitList(list.toMutableList() , callback)
+        differ.submitList(list.toMutableList())
     }
 
     //To preload the image and cache it
@@ -101,6 +103,7 @@ class PhotoGridAdapter(
                 interaction?.onItemSelected(adapterPosition, item , type)
             }
 
+
             requestManager
                     .load(item)
                     .transition(withCrossFade())
@@ -119,27 +122,33 @@ class PhotoGridAdapter(
 
 
     internal inner class PhotoGridChangeCallBack(
+            onUpdate : OnUpdate? = null
     ) : ListUpdateCallback {
 
         override fun onChanged(position: Int, count: Int, payload: Any?) {
             printLogD("PhotoGridChangeCallBack", "onChanged")
             this@PhotoGridAdapter.notifyItemRangeChanged(position, count, payload)
+            onUpdate?.onUpdate()
         }
 
         override fun onInserted(position: Int, count: Int) {
             printLogD("PhotoGridChangeCallBack", "OnInserted")
             this@PhotoGridAdapter.notifyItemRangeChanged(position, count)
+            onUpdate?.onUpdate()
         }
 
         override fun onMoved(fromPosition: Int, toPosition: Int) {
             printLogD("PhotoGridChangeCallBack", "onMoved")
             this@PhotoGridAdapter.notifyDataSetChanged()
+            onUpdate?.onUpdate()
         }
 
         override fun onRemoved(position: Int, count: Int) {
             printLogD("PhotoGridChangeCallBack", "onRemoved")
             this@PhotoGridAdapter.notifyDataSetChanged()
+            onUpdate?.onUpdate()
         }
+
     }
 }
 

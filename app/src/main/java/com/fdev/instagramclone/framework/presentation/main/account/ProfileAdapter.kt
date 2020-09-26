@@ -12,6 +12,7 @@ import com.bumptech.glide.RequestManager
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.business.domain.model.Post
 import com.fdev.instagramclone.business.domain.model.User
+import com.fdev.instagramclone.databinding.EmptyItemBinding
 import com.fdev.instagramclone.databinding.ProfileProfileHeaderBinding
 import com.fdev.instagramclone.databinding.ProfileProfilePostBinding
 import com.fdev.instagramclone.framework.datasource.network.implementation.UserFirestoreServiceImpl
@@ -20,15 +21,19 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class ProfileAdapter(
         private val requestManager: RequestManager,
+        private val interaction: Interaction,
         viewPagerInteraction: PostViewPagerAdapter.Interaction,
         photoGridInteraction: PhotoGridAdapter.Interaction,
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val viewPool = RecyclerView.RecycledViewPool()
+
 
     private val HEADER = 1
     private val CONTENT = 2
+
+    // Cause i still looking a way to interact to the inner recyclerview , so i used this way to trigger next page
+    private val FOOTER = 3
 
     private var user: User
 
@@ -48,8 +53,7 @@ class ProfileAdapter(
         postViewPagerAdapter = PostViewPagerAdapter(requestManager,
                 photoGridInteraction,
                 viewPagerInteraction,
-                null,
-                viewPool)
+                null)
 
     }
 
@@ -75,7 +79,17 @@ class ProfileAdapter(
                         ), parent, false
                 )
 
-                return ProfileContentViewHolder(binding)
+                return ProfileContentViewHolder(binding , interaction)
+            }
+
+            FOOTER -> {
+                val binding = EmptyItemBinding.inflate(
+                        LayoutInflater.from(
+                                parent.context
+                        ), parent, false
+                )
+
+                return FooterViewHolder(binding)
             }
 
             else -> {
@@ -100,7 +114,7 @@ class ProfileAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return 3
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -150,6 +164,7 @@ class ProfileAdapter(
     class ProfileContentViewHolder
     constructor(
             private var binding: ProfileProfilePostBinding,
+            private var interaction: Interaction
     ) : RecyclerView.ViewHolder(binding.root), PhotoGridAdapter.OnUpdate {
 
         private val tabDrawable = listOf(R.drawable.ic_baseline_grid_on_24, R.drawable.ic_baseline_account_box_24)
@@ -172,6 +187,7 @@ class ProfileAdapter(
             binding.contentViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    interaction.onPageChanged(position)
                     val view = postViewPagerAdapter.getRecyclerView(binding.contentViewpager.currentItem)
                     view.post {
                         val wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY)
@@ -191,6 +207,7 @@ class ProfileAdapter(
         }
 
         override fun onUpdate() {
+            println("onupdate")
             val view = adapter.getRecyclerView(binding.contentViewpager.currentItem)
             view.post {
                 val wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY)
@@ -208,6 +225,18 @@ class ProfileAdapter(
     }
 
 
+    class FooterViewHolder
+    constructor(
+            private var binding: EmptyItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(user: User) = with(binding) {
+
+        }
+    }
+
+
     interface Interaction {
+        fun onPageChanged(page : Int)
     }
 }

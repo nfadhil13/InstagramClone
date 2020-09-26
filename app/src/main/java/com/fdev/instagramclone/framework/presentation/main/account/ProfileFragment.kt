@@ -26,10 +26,13 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ProfileFragment : BaseMainFragment(R.layout.fragment_profile), PostViewPagerAdapter.Interaction, PhotoGridAdapter.Interaction {
+class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
+        ProfileAdapter.Interaction,
+        PostViewPagerAdapter.Interaction, PhotoGridAdapter.Interaction {
 
 
 
+    private var currentPage = 1
 
 
     private var _binding: FragmentProfileBinding? = null
@@ -112,6 +115,7 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile), PostViewPag
         profileAdapter = ProfileAdapter(
             requestManager,
                 this,
+                this,
                 this
         )
         profileMainRecyclerview.apply {
@@ -121,18 +125,14 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile), PostViewPag
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val lastPosition = layoutManager.findFirstVisibleItemPosition()
-                    isNestedScrollingEnabled = true
-                    println(lastPosition)
+                    val lastPosition = layoutManager.findLastCompletelyVisibleItemPosition()
                     if(lastPosition == profileAdapter.itemCount.minus(1)){
-//                        (binding.profileMainRecyclerview.layoutManager as DisableableLinearLayoutManager)
-//                                .canScrollVertically = false
-                        binding.profileMainRecyclerview.isEnabled = false
-
+                            onNextPage(currentPage)
                     }
                 }
 
             })
+
             adapter = profileAdapter
         }
     }
@@ -174,8 +174,11 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile), PostViewPag
     }
 
 
-    override fun onNextPage(type: Int) {
-        printLogD("ProfileFragment " , "OnNextPage $type")
+    fun onNextPage(type: Int) {
+        printLogD("AddItem" , "before :${images2.size}")
+        images2.addAll(images1)
+        profileAdapter.addItemToPost(images2)
+        printLogD("AddItem" , "after :${images2.size}")
     }
 
     override fun onPause() {
@@ -193,6 +196,10 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile), PostViewPag
         super.onDestroyView()
         binding.profileMainRecyclerview.adapter = null
         _binding = null
+    }
+
+    override fun onPageChanged(page: Int) {
+        currentPage = page
     }
 
 }

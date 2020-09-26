@@ -14,8 +14,7 @@ class PostViewPagerAdapter(
         var requestManager: RequestManager,
         interaction: PhotoGridAdapter.Interaction,
         var viewPagerInteraction: Interaction,
-        var onUpdate : PhotoGridAdapter.OnUpdate? = null,
-        private val viewPool: RecyclerView.RecycledViewPool
+        var onUpdate : PhotoGridAdapter.OnUpdate? = null
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -91,7 +90,7 @@ class PostViewPagerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ViewPagerAdapterViewHolder -> {
-                holder.bind(adapterList[position] , viewPool)
+                holder.bind(adapterList[position])
                 recyclerViewList.add(position , holder.getView())
             }
         }
@@ -135,33 +134,20 @@ class PostViewPagerAdapter(
 
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item : PhotoGridAdapter , viewPool: RecyclerView.RecycledViewPool) = with(itemView) {
-            initRecylerView(itemView.post_recylerview , item , viewPool )
+        fun bind(item : PhotoGridAdapter ) = with(itemView) {
+            initRecylerView(itemView.post_recylerview , item  )
         }
 
         fun getView() : RecyclerView{
             return itemView.post_recylerview
         }
 
-        private fun initRecylerView(recyclerView: RecyclerView, recyclerViewAdapter : PhotoGridAdapter,
-                                    viewPool: RecyclerView.RecycledViewPool){
+        private fun initRecylerView(recyclerView: RecyclerView, recyclerViewAdapter : PhotoGridAdapter){
             recyclerView.apply{
-                setRecycledViewPool(viewPool)
-                val gridLayout = GridLayoutManager(context , 3)
+                val gridLayout = GridLayoutManager(recyclerView.context , 3)
+                gridLayout.initialPrefetchItemCount = recyclerViewAdapter.itemCount
                 layoutManager = gridLayout
                 setHasFixedSize(true)
-                this.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                        super.onScrollStateChanged(recyclerView, newState)
-                        val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                        val lastPosition = layoutManager.findLastVisibleItemPosition()
-                        printLogD("Adapter" , "$lastPosition : ${recyclerViewAdapter.itemCount.minus(1)} in $adapterPosition")
-                        if(lastPosition == recyclerViewAdapter.itemCount.minus(1)){
-                            interaction.onNextPage(adapterPosition)
-                        }
-                    }
-
-                })
 
                 adapter = recyclerViewAdapter
             }
@@ -170,7 +156,7 @@ class PostViewPagerAdapter(
     }
 
     interface Interaction {
-        fun onNextPage(type : Int)
+
         fun afterScrolled(isFirstItem : Boolean)
     }
 
