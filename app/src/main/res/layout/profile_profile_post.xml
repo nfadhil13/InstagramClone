@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+
     <com.google.android.material.tabs.TabLayout
        android:background="@drawable/tablayout_outline"
         android:id="@+id/content_tab_layout"

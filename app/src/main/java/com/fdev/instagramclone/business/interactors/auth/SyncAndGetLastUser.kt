@@ -2,6 +2,7 @@ package com.fdev.instagramclone.business.interactors.auth
 
 import com.fdev.instagramclone.business.data.cache.CacheResponseHandler
 import com.fdev.instagramclone.business.data.cache.abstraction.UserCacheDataSource
+import com.fdev.instagramclone.business.data.network.NetworkErrors
 import com.fdev.instagramclone.business.data.network.NetworkResponseHandler
 import com.fdev.instagramclone.business.data.network.abstraction.UserNetworkDataSource
 import com.fdev.instagramclone.business.data.util.safeApiCall
@@ -36,7 +37,7 @@ constructor(
             stateEvent: StateEvent
     ): Flow<DataState<AuthViewState>?> = flow {
 
-        printLogD("SyncAndGetLastUser" , "Syncing data")
+        printLogD("SyncAndGetLastUser", "Syncing data")
 
         var result: DataState<AuthViewState>? = null
 
@@ -47,20 +48,21 @@ constructor(
             val lastUserFromCache = cacheCall.data?.syncAndGetLastUser?.lastUser
             if (lastUserFromCache != null && isNetworkAvailable) {
                 val networkCall = checkAndSyncFromNetwork(lastUserFromCache.id, stateEvent)
-
-                if (networkCall != null) {
-
+                val isNull = networkCall?.stateMessage?.response?.message?.contains(NetworkErrors.NETWORK_DATA_NULL)
+                if (networkCall != null && isNull != null) {
                     val lastUserFromNetwork = networkCall.data?.syncAndGetLastUser?.lastUser
-                    if (lastUserFromNetwork != null) {
-                        safeCacheCall(IO){
-                            userCacheDataSource.updateUser(lastUserFromCache)
-                        }
-                    } else {
-                        safeCacheCall(IO) {
-                            userCacheDataSource.deleteUser(lastUserFromCache.id)
+                    if(isNull){
+                        if (lastUserFromNetwork != null) {
+                            safeCacheCall(IO) {
+                                userCacheDataSource.updateUser(lastUserFromCache)
+                            }
+                        } else {
+                            safeCacheCall(IO) {
+                                userCacheDataSource.deleteUser(lastUserFromCache.id)
+                            }
                         }
                     }
-                    result = networkCall
+                    result = cacheCall
                 } else {
                     result = DataState.error<AuthViewState>(
                             response = Response(
@@ -97,7 +99,7 @@ constructor(
             var user: User? = null
             user = userNetworkDataSource.getUser(userId)
             if (user != null) {
-                printLogD("SyncAndGetLastUser" , "email : ${user.email} , ${user.password}")
+                printLogD("SyncAndGetLastUser", "email : ${user.email} , ${user.password}")
                 userNetworkDataSource.loginWithEmail(user.email, user.password)
             }
             user
@@ -109,11 +111,11 @@ constructor(
         ) {
             override suspend fun handleSuccess(resultObj: User): DataState<AuthViewState>? {
                 return DataState.data(
-                            response = null,
-                            data = AuthViewState(
-                                    syncAndGetLastUser = SyncAndGetLastUser(resultObj , isLogin = true)
-                            ),
-                            stateEvent = null)
+                        response = null,
+                        data = AuthViewState(
+                                syncAndGetLastUser = SyncAndGetLastUser(resultObj, isLogin = true)
+                        ),
+                        stateEvent = null)
 
             }
 
@@ -131,11 +133,11 @@ constructor(
         ) {
             override fun handleSuccess(resultObj: User?): DataState<AuthViewState>? {
                 return DataState.data(
-                            response = null,
-                            data = AuthViewState(
-                                    syncAndGetLastUser = SyncAndGetLastUser(resultObj , isLogin = true)
-                            ),
-                            stateEvent = null)
+                        response = null,
+                        data = AuthViewState(
+                                syncAndGetLastUser = SyncAndGetLastUser(resultObj, isLogin = true)
+                        ),
+                        stateEvent = null)
 
             }
 

@@ -13,6 +13,7 @@ import com.fdev.instagramclone.R
 import com.fdev.instagramclone.business.domain.model.Post
 import com.fdev.instagramclone.business.domain.model.User
 import com.fdev.instagramclone.databinding.EmptyItemBinding
+import com.fdev.instagramclone.databinding.LoadingItemBinding
 import com.fdev.instagramclone.databinding.ProfileProfileHeaderBinding
 import com.fdev.instagramclone.databinding.ProfileProfilePostBinding
 import com.fdev.instagramclone.framework.datasource.network.implementation.UserFirestoreServiceImpl
@@ -28,12 +29,20 @@ class ProfileAdapter(
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
+    //Initial is 3
+    private var _size = 3
+
+    val size
+    get() = _size
 
     private val HEADER = 1
     private val CONTENT = 2
 
     // Cause i still looking a way to interact to the inner recyclerview , so i used this way to trigger next page
     private val FOOTER = 3
+
+    //loading view
+    private val LOADING = 4
 
     private var user: User
 
@@ -92,6 +101,16 @@ class ProfileAdapter(
                 return FooterViewHolder(binding)
             }
 
+            LOADING -> {
+                val binding = LoadingItemBinding.inflate(
+                        LayoutInflater.from(
+                                parent.context
+                        ), parent, false
+                )
+
+                return LoadingViewHolder(binding)
+            }
+
             else -> {
                 throw Exception("Unvalid viewtype")
             }
@@ -114,8 +133,10 @@ class ProfileAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return size
     }
+
+
 
     override fun getItemViewType(position: Int): Int {
         //Cause the flag using
@@ -135,6 +156,30 @@ class ProfileAdapter(
 
     fun addItemToPost(list: List<String>) {
         postViewPagerAdapter.addItemToPost(list)
+    }
+
+    fun hideLoadingView() : Boolean{
+        val oldSize = size
+        if(oldSize-1 == LOADING - 1){
+            _size = size-1
+            notifyItemRemoved(oldSize)
+            return true
+        }
+        return false
+    }
+
+    fun showLoadingView() : Boolean{
+        val oldSize = size
+        if(oldSize+1 == LOADING){
+            _size = size+1
+            notifyItemInserted(size)
+            return true
+        }
+        return false
+    }
+
+    fun isLoading() : Boolean {
+        return size == 4
     }
 
 
@@ -230,9 +275,13 @@ class ProfileAdapter(
             private var binding: EmptyItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(user: User) = with(binding) {
+    }
 
-        }
+    class LoadingViewHolder
+    constructor(
+            private var binding : LoadingItemBinding
+    ) : RecyclerView.ViewHolder(binding.root){
+
     }
 
 

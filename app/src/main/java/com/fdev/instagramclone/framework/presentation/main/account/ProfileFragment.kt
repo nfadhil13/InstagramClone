@@ -20,8 +20,9 @@ import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
 import com.fdev.instagramclone.util.cutomview.DisableableLinearLayoutManager
 import com.fdev.instagramclone.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -97,15 +98,12 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
         binding.apply {
             initRecyclerView(profileMainRecyclerview)
             usernameTv.setOnClickListener {
-                printLogD("AddItem" , "before :${images2.size}")
-                images2.addAll(images1)
-                profileAdapter.addItemToPost(images2)
-                printLogD("AddItem" , "after :${images2.size}")
+                profileMainRecyclerview.smoothScrollToPosition(0)
             }
 
 
             btnMore.setOnClickListener {
-                profileAdapter.addItemToPost(images1)
+
             }
         }
     }
@@ -126,7 +124,9 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
                     super.onScrollStateChanged(recyclerView, newState)
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val lastPosition = layoutManager.findLastCompletelyVisibleItemPosition()
-                    if(lastPosition == profileAdapter.itemCount.minus(1)){
+                    if(lastPosition == profileAdapter.itemCount.minus(1)
+                            && !profileAdapter.isLoading()
+                    ){
                             onNextPage(currentPage)
                     }
                 }
@@ -175,10 +175,19 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
 
 
     fun onNextPage(type: Int) {
-        printLogD("AddItem" , "before :${images2.size}")
-        images2.addAll(images1)
-        profileAdapter.addItemToPost(images2)
-        printLogD("AddItem" , "after :${images2.size}")
+        profileAdapter.showLoadingView()
+        binding.profileMainRecyclerview.smoothScrollToPosition(profileAdapter.size)
+        CoroutineScope(IO).launch {
+            delay(5000)
+            withContext(Main) {
+                printLogD("AddItem" , "before :${images2.size}")
+                images2.addAll(images1)
+                profileAdapter.addItemToPost(images2)
+                printLogD("AddItem" , "after :${images2.size}")
+                profileAdapter.hideLoadingView()
+            }
+        }
+
     }
 
     override fun onPause() {
