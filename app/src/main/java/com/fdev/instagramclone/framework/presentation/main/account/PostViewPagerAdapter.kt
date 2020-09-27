@@ -148,7 +148,6 @@ class PostViewPagerAdapter(
                 gridLayout.initialPrefetchItemCount = recyclerViewAdapter.itemCount
                 layoutManager = gridLayout
                 setHasFixedSize(true)
-
                 adapter = recyclerViewAdapter
             }
         }

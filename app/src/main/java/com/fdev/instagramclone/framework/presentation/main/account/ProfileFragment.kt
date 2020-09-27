@@ -48,6 +48,8 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
 
     private lateinit var requestManager: RequestManager
 
+    private lateinit var recyclerViewLayoutManager: LinearLayoutManager
+
 
     private var images1 = listOf(
             "https://www.worldwomanfoundation.com/wp-content/uploads/2018/09/Jeannette_Ceja-_Head_Shot_2018_0-770x330.jpg",
@@ -98,7 +100,8 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
         binding.apply {
             initRecyclerView(profileMainRecyclerview)
             usernameTv.setOnClickListener {
-                profileMainRecyclerview.smoothScrollToPosition(0)
+                recyclerViewLayoutManager.scrollToPositionWithOffset(0 , 20)
+//                profileMainRecyclerview.smoothScrollToPosition(0)
             }
 
 
@@ -117,7 +120,8 @@ class ProfileFragment : BaseMainFragment(R.layout.fragment_profile),
                 this
         )
         profileMainRecyclerview.apply {
-            layoutManager = LinearLayoutManager(this@ProfileFragment.context)
+            recyclerViewLayoutManager = LinearLayoutManager(this@ProfileFragment.context)
+            layoutManager  = recyclerViewLayoutManager
             setHasFixedSize(true)
             addOnScrollListener(object : RecyclerView.OnScrollListener(){
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
