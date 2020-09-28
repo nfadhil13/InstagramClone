@@ -37,6 +37,12 @@ object Dependencies {
     val room_database = "androidx.room:room-runtime:${Versions.room_version}"
     val room_ktx = "androidx.room:room-ktx:${Versions.room_version}"
 
+    val camerax_core = "androidx.camera:camera-core:${Versions.camerax_version}"
+    val camerax_camera2 = "androidx.camera:camera-camera2:${Versions.camerax_version}"
+    val camerax_lifecycle = "androidx.camera:camera-lifecycle:${Versions.camerax_version}"
+    val camerax_view = "androidx.camera:camera-view:${Versions.camerax_view}"
+    val camerax_extensions = "androidx.camera:camera-extensions:${Versions.camerax_extensions}"
+
 
 
 }

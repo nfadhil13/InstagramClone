@@ -134,5 +134,11 @@ dependencies {
     //View binding 3rd party , to avoid memory leak
     implementation Dependencies.ViewBindingPropertyDelegate
 
+    //CameraX
+    implementation Dependencies.camerax_core
+    implementation Dependencies.camerax_camera2
+    implementation Dependencies.camerax_lifecycle
+    implementation Dependencies.camerax_view
+    implementation Dependencies.camerax_extensions
 
 }

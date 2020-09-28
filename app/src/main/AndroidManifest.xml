@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fdev.instagramclone">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+
     <application
         android:name=".framework.presentation.BaseApplication"
         android:allowBackup="true"

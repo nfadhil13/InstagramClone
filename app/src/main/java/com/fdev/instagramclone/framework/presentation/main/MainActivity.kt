@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() , OnFragmentChangedListener{
+class MainActivity : BaseActivity() , OnFragmentChangedListener {
 
     private var _binding : ActivityMainBinding? = null
 

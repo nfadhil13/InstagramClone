@@ -179,7 +179,7 @@ class ProfileAdapter(
     }
 
     fun isLoading() : Boolean {
-        return size == 4
+        return size == LOADING
     }
 
 
@@ -223,6 +223,8 @@ class ProfileAdapter(
             adapter = postViewPagerAdapter
 
             binding.contentViewpager.adapter = postViewPagerAdapter
+
+            binding.contentViewpager.offscreenPageLimit = 2
 
             TabLayoutMediator(binding.contentTabLayout, binding.contentViewpager) { tab, position ->
                 tab.setIcon(tabDrawable[position])

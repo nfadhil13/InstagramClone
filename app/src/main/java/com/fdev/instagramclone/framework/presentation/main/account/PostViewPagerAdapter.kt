@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.fdev.instagramclone.R
-import com.fdev.instagramclone.util.cutomview.NestedRecyclerGridLayoutManager
-import com.fdev.instagramclone.util.printLogD
 import kotlinx.android.synthetic.main.viewpager_post_item.view.*
 
 class PostViewPagerAdapter(

@@ -1,6 +1,10 @@
 package dependencies
 
 object Versions {
+
+    val camerax_extensions = "1.0.0-alpha17"
+    val camerax_view = "1.0.0-alpha17"
+    val camerax_version = "1.0.0-beta10"
     val ViewBindingPropertyDelegate = "1.2.1"
     val glide = "4.11.0"
     val circle_imageview = "3.1.0"

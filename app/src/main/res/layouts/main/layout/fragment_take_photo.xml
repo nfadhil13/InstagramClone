@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.camera.view.CameraView
+        android:id="@+id/cameraView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/outer_takephoto_btn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@color/blurLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraView" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/inner_takephoto_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/outer_takephoto_btn"
+        app:layout_constraintEnd_toEndOf="@+id/outer_takephoto_btn"
+        app:layout_constraintStart_toStartOf="@+id/outer_takephoto_btn"
+        app:layout_constraintTop_toTopOf="@+id/outer_takephoto_btn" />
+</androidx.constraintlayout.widget.ConstraintLayout>
