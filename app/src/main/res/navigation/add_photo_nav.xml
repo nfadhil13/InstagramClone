@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/add_photo_nav"
+    app:startDestination="@id/addPhotoFragment">
+
+    <fragment
+        android:id="@+id/addPhotoFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.main.addphoto.AddPhotoFragment"
+        android:label="AddPhotoFragment" >
+        <action
+            android:id="@+id/action_addPhotoFragment3_to_photoEditorFragment"
+            app:destination="@id/photoEditorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoEditorFragment"
+        android:name="com.fdev.instagramclone.framework.presentation.main.addphoto.PhotoEditorFragment"
+        android:label="PhotoEditorFragment" />
+</navigation>

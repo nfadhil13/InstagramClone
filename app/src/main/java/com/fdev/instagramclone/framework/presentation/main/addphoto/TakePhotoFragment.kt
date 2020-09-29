@@ -1,8 +1,11 @@
 package com.fdev.instagramclone.framework.presentation.main.addphoto
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.ImageFormat
+import android.media.Image
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -17,7 +20,18 @@ import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentTakePhotoBinding
 import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
 import com.fdev.instagramclone.framework.presentation.main.MainActivity
+import com.fdev.instagramclone.framework.presentation.toBitmap
 import com.fdev.instagramclone.util.printLogD
+import kotlinx.android.synthetic.main.fragment_take_photo.*
+import kotlinx.android.synthetic.main.fragment_take_photo.cameraView
+import kotlinx.android.synthetic.main.fragment_take_photo.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
@@ -29,6 +43,8 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
     private val binding: FragmentTakePhotoBinding by viewBinding()
 
     private lateinit var cameraExecutor: ExecutorService
+
+    private var onImageSelected : OnImageSelected? = null
 
     companion object {
         const val REQUESTCODE = 1911
@@ -50,13 +66,14 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
             } else {
                 binding.apply {
                     cameraView.bindToLifecycle(viewLifecycleOwner)
-
                     innerTakephotoBtn.setOnClickListener {
                         val file = File(context.toString() + System.currentTimeMillis())
+                        cameraView.
                         cameraView.takePicture(cameraExecutor , object : ImageCapture.OnImageCapturedCallback(){
                             override fun onCaptureSuccess(image: ImageProxy) {
                                 printLogD("Success Taking image" , "format : ${image.format}")
-
+                                initLoading()
+                                processImage(image)
                             }
                         })
                     }
@@ -65,6 +82,23 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
         } ?: throw Exception("")
 
 
+
+    }
+
+
+    fun initLoading() {
+
+    }
+
+    @SuppressLint("UnsafeExperimentalUsageError")
+    fun processImage(imageProxy: ImageProxy){
+        CoroutineScope(Default).launch {
+            val imageBitmap = imageProxy.image?.toBitmap()
+            imageProxy.close()
+            imageBitmap?.let{
+                onImageSelected?.onImageSelected(it)
+            }?: onImageSelected?.onError()
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -87,6 +121,9 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
         }
     }
 
+    fun setOnImageSelected(onImageSelected: OnImageSelected){
+        this.onImageSelected = onImageSelected
+    }
 
     private fun initNoCameraPermission() {
 
@@ -96,6 +133,7 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
         super.onDestroyView()
         cameraExecutor.shutdown()
     }
+
 
 
 }

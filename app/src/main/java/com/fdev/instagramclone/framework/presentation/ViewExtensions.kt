@@ -1,5 +1,8 @@
 package com.fdev.instagramclone.framework.presentation
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.Image
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -37,4 +40,12 @@ fun NavController.popBackStackAllInstances(destination : Int , inclusive : Boole
     }
     return popped
 
+}
+
+fun Image.toBitmap(): Bitmap {
+    val buffer = planes[0].buffer
+    buffer.rewind()
+    val bytes = ByteArray(buffer.capacity())
+    buffer.get(bytes)
+    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
 }

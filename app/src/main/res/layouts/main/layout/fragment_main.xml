@@ -7,15 +7,12 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottomnav_nav_host_containerr"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:navGraph="@navigation/bottom_nav_graph"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:defaultNavHost="true"
         app:layout_constraintTop_toTopOf="parent" />
 
 

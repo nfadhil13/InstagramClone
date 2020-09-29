@@ -6,5 +6,9 @@
     <fragment
         android:id="@+id/activityFragment"
         android:name="com.fdev.instagramclone.framework.presentation.main.activity.ActivityFragment"
-        android:label="ActivityFragment" />
+        android:label="ActivityFragment" >
+        <action
+            android:id="@+id/action_activityFragment_self"
+            app:destination="@id/activityFragment" />
+    </fragment>
 </navigation>

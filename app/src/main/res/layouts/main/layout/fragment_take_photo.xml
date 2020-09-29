@@ -34,4 +34,13 @@
         app:layout_constraintEnd_toEndOf="@+id/outer_takephoto_btn"
         app:layout_constraintStart_toStartOf="@+id/outer_takephoto_btn"
         app:layout_constraintTop_toTopOf="@+id/outer_takephoto_btn" />
+
+    <ImageView
+        android:id="@+id/test_imageview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

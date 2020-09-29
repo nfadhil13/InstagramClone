@@ -2,33 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_menu"
         android:icon="@drawable/home_selector"
-        android:menuCategory="secondary"
         android:title="Home" />
 
     <item
-        android:title="Search"
-        android:menuCategory="secondary"
-        android:id="@+id/photoGridFragment"
+        android:title="SearchMenu"
+        android:id="@+id/search_menu"
         android:icon="@drawable/search_selector"/>
 
     <item
         android:title="Add Photo"
-        android:menuCategory="secondary"
-        android:id="@+id/addPhotoFragment"
+        android:id="@+id/add_photo_menu"
         android:icon="@drawable/add_photo_selector"/>
 
     <item
         android:title="Activity"
-        android:menuCategory="secondary"
-        android:id="@+id/activityFragment"
+        android:id="@+id/activity_menu"
         android:icon="@drawable/activity_selector"/>
 
     <item
         android:title="Profile"
-        android:menuCategory="secondary"
-        android:id="@+id/profileFragment"
+        android:id="@+id/profile_menu"
         android:icon="@drawable/profile_selector"/>
 
 </menu>
