@@ -2,6 +2,7 @@ package dependencies
 
 object Versions {
 
+    val photoFilter = "1.0.7"
     val camerax_extensions = "1.0.0-alpha17"
     val camerax_view = "1.0.0-alpha17"
     val camerax_version = "1.0.0-beta10"

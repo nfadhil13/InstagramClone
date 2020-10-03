@@ -56,4 +56,7 @@
     <string name="followers_label">Followers</string>
     <string name="posts_label">Posts</string>
     <string name="edit_profile_label">Edit Profile</string>
+    <string name="filter_normal">Normal</string>
+    <string name="photo_label">Photo</string>
+    <string name="library_label">Library</string>
 </resources>

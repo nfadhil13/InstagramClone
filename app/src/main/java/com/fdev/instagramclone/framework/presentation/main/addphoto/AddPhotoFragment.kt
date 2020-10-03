@@ -7,25 +7,52 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import by.kirich1409.viewbindingdelegate.viewBinding
+import androidx.viewpager2.widget.ViewPager2
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentAddPhotoBinding
-import com.fdev.instagramclone.databinding.FragmentPhotoGridBinding
 import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
-import com.fdev.instagramclone.framework.presentation.main.MainFragment
-import com.fdev.instagramclone.framework.presentation.main.chat.ChatListFragment
-import kotlinx.android.synthetic.main.fragment_add_photo.*
+import com.google.android.material.tabs.TabLayoutMediator
 import java.io.File
 
 const val PHOTO_BUNDLE_KEY = "photo"
 
-class AddPhotoFragment : BaseMainFragment(R.layout.fragment_add_photo) , OnImageSelected{
+class AddPhotoFragment : BaseMainFragment(R.layout.fragment_add_photo) , OnImageSelected  {
 
-    private val binding : FragmentAddPhotoBinding by viewBinding()
+    private var _binding : FragmentAddPhotoBinding? = null
 
+    private val binding
+    get() = _binding!!
+
+    private var tabMediator : TabLayoutMediator? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentAddPhotoBinding.inflate(layoutInflater , container , false)
+        val view = binding.root
+        return view
+    }
+
+    private val onPageChangeCallBack = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            if(position == 0){
+                binding.btnMore.visibility = View.GONE
+                binding.btnNext.visibility = View.GONE
+            }else{
+                binding.btnMore.visibility = View.VISIBLE
+                binding.btnNext.visibility = View.VISIBLE
+            }
+        }
+    }
+    private val mode = listOf(
+            "Photo",
+            "Library"
+    )
+//    private val mode = listOf(
+//            getString(R.string.photo_label),
+//            getString(R.string.library_label)
+//    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,8 +64,15 @@ class AddPhotoFragment : BaseMainFragment(R.layout.fragment_add_photo) , OnImage
 
             viewpager.apply {
                 adapter = PhotoFragmentPagerAdapter(this@AddPhotoFragment , this@AddPhotoFragment)
+                registerOnPageChangeCallback(onPageChangeCallBack)
+                offscreenPageLimit = 2
             }
 
+            tabMediator = TabLayoutMediator(takephotoTablayout , viewpager){ tab, position ->
+                tab.text = mode[position]
+            }
+
+            tabMediator?.attach()
 
         }
     }
@@ -53,7 +87,11 @@ class AddPhotoFragment : BaseMainFragment(R.layout.fragment_add_photo) , OnImage
 
             takePhotoFragment.setOnImageSelected(onImageSelected)
 
+
+            val photoDeviceFragment = PhotoDeviceFragment()
+
             fragmentList.add(takePhotoFragment)
+            fragmentList.add(photoDeviceFragment)
         }
 
         override fun getItemCount(): Int {
@@ -66,8 +104,11 @@ class AddPhotoFragment : BaseMainFragment(R.layout.fragment_add_photo) , OnImage
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewpager.adapter = null
-
+        binding.viewpager.adapter = null
+        binding.viewpager.unregisterOnPageChangeCallback(onPageChangeCallBack)
+        tabMediator?.detach()
+        tabMediator = null
+        _binding = null
     }
 
     override fun onImageSelected(bitmap: Bitmap) {
@@ -76,7 +117,6 @@ class AddPhotoFragment : BaseMainFragment(R.layout.fragment_add_photo) , OnImage
     }
 
     override fun onImageSelected(file: File) {
-
     }
 
     override fun onError() {

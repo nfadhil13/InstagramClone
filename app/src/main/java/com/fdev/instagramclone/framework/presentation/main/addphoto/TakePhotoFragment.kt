@@ -2,38 +2,26 @@ package com.fdev.instagramclone.framework.presentation.main.addphoto
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.ImageFormat
-import android.media.Image
+import android.hardware.camera2.CameraMetadata.LENS_FACING_BACK
+import android.hardware.camera2.CameraMetadata.LENS_FACING_FRONT
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
-import android.widget.ImageView
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCapture.FlashMode
 import androidx.camera.core.ImageProxy
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.requestPermissions
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import com.fdev.instagramclone.R
 import com.fdev.instagramclone.databinding.FragmentTakePhotoBinding
 import com.fdev.instagramclone.framework.presentation.main.BaseMainFragment
-import com.fdev.instagramclone.framework.presentation.main.MainActivity
 import com.fdev.instagramclone.framework.presentation.toBitmap
 import com.fdev.instagramclone.util.printLogD
-import kotlinx.android.synthetic.main.fragment_take_photo.*
-import kotlinx.android.synthetic.main.fragment_take_photo.cameraView
-import kotlinx.android.synthetic.main.fragment_take_photo.view.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -46,8 +34,12 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
 
     private var onImageSelected : OnImageSelected? = null
 
+    private var convertJob : Job? = null
+
     companion object {
         const val REQUESTCODE = 1911
+        @FlashMode private const val FLASH_MODE_ON = 2
+        @FlashMode private const val FLASH_MODE_OFF = 4
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +49,7 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
     }
 
     private fun initUI() {
-        context?.let {context ->
+        context?.let { context ->
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 activity?.let {
                     requestPermissions(it, arrayOf(Manifest.permission.CAMERA), REQUESTCODE)
@@ -66,19 +58,35 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
             } else {
                 binding.apply {
                     cameraView.bindToLifecycle(viewLifecycleOwner)
-                    innerTakephotoBtn.setOnClickListener {
-                        val file = File(context.toString() + System.currentTimeMillis())
-                        cameraView.
-                        cameraView.takePicture(cameraExecutor , object : ImageCapture.OnImageCapturedCallback(){
+                    innerCircleBtn.setOnClickListener {
+                        cameraView.takePicture(cameraExecutor, object : ImageCapture.OnImageCapturedCallback() {
                             override fun onCaptureSuccess(image: ImageProxy) {
-                                printLogD("Success Taking image" , "format : ${image.format}")
-                                initLoading()
+                                printLogD("Success Taking image", "format : ${image.format}")
                                 processImage(image)
                             }
                         })
                     }
+                    rotateCamera.setOnClickListener {
+                        if(cameraView.cameraLensFacing == LENS_FACING_FRONT){
+                            cameraView.cameraLensFacing = LENS_FACING_BACK
+                        }else{
+                            cameraView.cameraLensFacing = LENS_FACING_FRONT
+                        }
+                    }
+
+                    flashCamera.setOnClickListener {
+                        if(cameraView.flash == ImageCapture.FLASH_MODE_ON){
+                            printLogD("TakePhotoFragment", "FLASH MODE OFF")
+                            cameraView.flash = ImageCapture.FLASH_MODE_OFF
+                            flashCamera.setImageResource(R.drawable.ic_baseline_flash_on_24)
+                        }else{
+                            printLogD("TakePhotoFragment", "FLASH_MODE_ON")
+                            cameraView.flash == ImageCapture.FLASH_MODE_ON
+                            flashCamera.setImageResource(R.drawable.ic_baseline_flash_off_24)
+                        }
+                    }
                 }
-            }
+        }
         } ?: throw Exception("")
 
 
@@ -92,8 +100,8 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
 
     @SuppressLint("UnsafeExperimentalUsageError")
     fun processImage(imageProxy: ImageProxy){
-        CoroutineScope(Default).launch {
-            val imageBitmap = imageProxy.image?.toBitmap()
+        convertJob = CoroutineScope(Default).launch{
+            val imageBitmap = imageProxy.image?.toBitmap(300, 300)
             imageProxy.close()
             imageBitmap?.let{
                 onImageSelected?.onImageSelected(it)
@@ -132,6 +140,11 @@ class TakePhotoFragment : BaseMainFragment(R.layout.fragment_take_photo) {
     override fun onDestroyView() {
         super.onDestroyView()
         cameraExecutor.shutdown()
+        convertJob?.let{
+            if(it.isActive){
+                it.cancel()
+            }
+        }
     }
 
 
